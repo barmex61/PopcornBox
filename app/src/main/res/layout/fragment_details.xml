@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
 <androidx.constraintlayout.motion.widget.MotionLayout
 
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mainLayout"
     android:layoutAnimation="@anim/layout_animation"
     android:layout_width="match_parent"
@@ -140,13 +139,12 @@
             android:contentDescription="@string/app_name"
             android:ellipsize="none"
             android:includeFontPadding="false"
-            android:maxLines="1"
             android:textColor="@color/white"
             android:textSize="13sp"
             app:layout_constraintBottom_toBottomOf="@id/runtimeText"
             app:layout_constraintStart_toStartOf="@id/nameText"
 
-            />
+            android:singleLine="true" />
 
         <ImageView
             android:id="@+id/calendarImage"
@@ -168,11 +166,11 @@
             android:contentDescription="@string/app_name"
             android:ellipsize="none"
             android:includeFontPadding="false"
-            android:maxLines="1"
             android:textColor="@color/white"
             android:textSize="13sp"
             app:layout_constraintBottom_toBottomOf="@id/runtimeText"
-            app:layout_constraintStart_toEndOf="@id/calendarImage" />
+            app:layout_constraintStart_toEndOf="@id/calendarImage"
+            android:singleLine="true" />
 
         <ImageView
             android:id="@+id/timeImage"
@@ -195,11 +193,11 @@
             android:contentDescription="@string/app_name"
             android:ellipsize="none"
             android:includeFontPadding="false"
-            android:maxLines="1"
             android:textColor="@color/white"
             android:textSize="13sp"
             app:layout_constraintBottom_toTopOf="@id/circleIndicator"
-            app:layout_constraintStart_toEndOf="@id/timeImage" />
+            app:layout_constraintStart_toEndOf="@id/timeImage"
+            android:singleLine="true" />
 
         <me.relex.circleindicator.CircleIndicator3
             android:id="@+id/circleIndicator"
@@ -232,8 +230,8 @@
         app:tabMode="scrollable"
         app:tabGravity="center"
         app:tabTextColor="@color/white"
-        app:tabIndicatorColor="@color/scaletRed"
-        app:tabSelectedTextColor="@color/scaletRed"
+        app:tabIndicatorColor="@color/scarletRed"
+        app:tabSelectedTextColor="@color/scarletRed"
         app:tabIndicatorAnimationMode="elastic"
         app:tabIndicatorFullWidth="false"
         app:tabIndicatorAnimationDuration="@integer/material_motion_duration_medium_2"
@@ -274,14 +272,14 @@
         android:src="@drawable/baseline_add_24"
         android:scaleType="fitCenter"/>
 
-       <androidx.constraintlayout.widget.ConstraintLayout
-           android:layout_width="match_parent"
-           android:background="@android:color/transparent"
-           android:layout_height="wrap_content"
-           app:layout_constraintTop_toTopOf="parent"
-           app:layout_constraintStart_toStartOf="parent"
-           app:layout_constraintEnd_toEndOf="parent"
-           android:id="@+id/linearLayout">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:background="@android:color/transparent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:id="@+id/linearLayout">
 
         <ImageView
             android:id="@+id/back_button"
@@ -342,7 +340,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:tint="@color/white" />
 
-       </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     <com.airbnb.lottie.LottieAnimationView
@@ -359,3 +357,4 @@
 
 
 </androidx.constraintlayout.motion.widget.MotionLayout>
+</layout>

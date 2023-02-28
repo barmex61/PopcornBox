@@ -62,11 +62,11 @@
             android:textSize="10sp"
             android:textAlignment="center"
             android:includeFontPadding="false"
-            android:maxLines="1"
             android:ellipsize="none"
             android:paddingStart="2dp"
             android:textColor="@color/white"
-            tools:ignore="RtlSymmetry,SmallSp" />
+            tools:ignore="RtlSymmetry,SmallSp"
+            android:singleLine="true" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -79,11 +79,11 @@
             android:textSize="10sp"
             android:textColor="@color/white"
             android:includeFontPadding="false"
-            android:maxLines="1"
             android:ellipsize="none"
             android:layout_marginEnd="13dp"
             android:textAlignment="center"
-            tools:ignore="SmallSp" />
+            tools:ignore="SmallSp"
+            android:singleLine="true" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

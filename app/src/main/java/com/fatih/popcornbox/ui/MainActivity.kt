@@ -1,15 +1,18 @@
 package com.fatih.popcornbox.ui
 
+import android.annotation.SuppressLint
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.view.WindowManager
 import androidx.core.view.WindowCompat
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.fatih.popcornbox.R
+import com.fatih.popcornbox.databinding.ActivityMainBinding
 import com.fatih.popcornbox.other.Constants.isFirstRun
 import com.fatih.popcornbox.other.Constants.orientation
 import com.fatih.popcornbox.viewmodel.HomeFragmentViewModel
@@ -34,7 +37,6 @@ class MainActivity : AppCompatActivity() {
             isFirstRun=false
         }
         orientation=currentOrientation
-        setContentView(R.layout.activity_main)
         WindowCompat.setDecorFitsSystemWindows(window.apply {
             setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
                 WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
@@ -42,6 +44,7 @@ class MainActivity : AppCompatActivity() {
                 attributes.layoutInDisplayCutoutMode=WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
             }
         }, false)
+        setContentView(R.layout.activity_main)
         setupNavController()
         if (savedInstanceState != null) {
             navControllerState = savedInstanceState.getBundle("navControllerState")
