@@ -1,0 +1,107 @@
+<resources>
+    <string name="app_name">PopcornApp</string>
+    <string name="p0pc0rn_time">P0PC0RN\u0020Box</string>
+    <string name="movies">MOVIES</string>
+    <string name="tv_shows">TV SHOWS</string>
+    <string name="tv_show">TV SHOWS</string>
+    <string name="index">Index</string>
+    <string name="genres">Genres</string>
+    <string name="sort_by">Sort By</string>
+    <string name="quality">Quality</string>
+    <string name="communications">Communications</string>
+    <string name="favorites">Favorites</string>
+    <string name="notifications">Notifications</string>
+    <string name="downloads">Downloads</string>
+    <string name="settings">Settings</string>
+    <string name="version_1_0">Version 1.0</string>
+    <string name="popcorn_time">POPCORN\u0020Box</string>
+    <string name="enter_tv_show">Search…</string>
+    <string name="reviews">REVIEWS</string>
+    <string name="trailer">TRAILER</string>
+    <string name="seasons">SEASONS</string>
+    <string name="film_bilgisi">About</string>
+    <string name="orjinal_smi">Original Name</string>
+    <string name="durumu">Status</string>
+    <string name="s_resi">Runtime</string>
+    <string name="orjinal_dili">Original language</string>
+    <string name="yap_mc_lke">Production countries</string>
+    <string name="irketler">Production companies</string>
+    <string name="b_t_esi">Budget</string>
+    <string name="has_lat">Revenue</string>
+    <string name="tagline">Tagline</string>
+    <string name="puan_ortalamas">Vote average</string>
+    <string name="oy_say_s">Vote count</string>
+    <string name="a_klama">Description</string>
+    <string name="t_r">Genre</string>
+    <string name="hakkinda">About</string>
+    <string name="actor">Actors</string>
+    <string name="comment">Reviews</string>
+    <string name="recommendation">Recommendation</string>
+    <string name="familiar">Familiar</string>
+    <string name="trailers">Trailer</string>
+    <string name="k_tarihi">Release date</string>
+    <string name="s_rala">Sort</string>
+    <string name="rviewcount">0 review</string>
+    <string name="review"> review</string>
+    <string name="yearsago">years\u0020ago</string>
+    <string name="monthago">month\u0020ago</string>
+    <string name="dayago">day\u0020ago</string>
+    <string name="today">Today</string>
+    <string name="date">Date</string>
+    <string name="rating">Rating</string>
+    <string name="oops_nothing_found">Oops!\u0020Nothing\u0020found</string>
+    <string name="undo">Undo</string>
+    <string name="added_history">Added\u0020to\u0020history</string>
+    <string name="delete_history">Deleted\u0020from\u0020history</string>
+    <string name="watch_list">Watch\u0020list</string>
+    <string name="api_key">09e3910a800e40ffb245537447169476</string>
+    <string name="youtube_api_key">AIzaSyAt9EbRTdpB_H5aDwyDihIyavcppLm_8vk</string>
+    <string-array name="movie_genre_list">
+        <item>Action</item>
+        <item>Adventure</item>
+        <item>Animation</item>
+        <item>Comedy</item>
+        <item>Crime</item>
+        <item>Documentary</item>
+        <item>Drama</item>
+        <item>Family</item>
+        <item>Fantasy</item>
+        <item>History</item>
+        <item>Horror</item>
+        <item>Music</item>
+        <item>Mystery</item>
+        <item>Romance</item>
+        <item>Science Fiction</item>
+        <item>TV Movie</item>
+        <item>Thriller</item>
+        <item>War</item>
+        <item>Western</item>
+    </string-array>
+
+    <string-array name="sort_array">
+        <item>Popularity</item>
+        <item>First Air Date</item>
+        <item>Vote Average</item>
+    </string-array>
+
+    <string-array name="tv_show_genre_list">
+        <item>Action</item>
+        <item>Animation</item>
+        <item>Comedy</item>
+        <item>Crime</item>
+        <item>Documentary</item>
+        <item>Drama</item>
+        <item>Family</item>
+        <item>Kids</item>
+        <item>Mystery</item>
+        <item>News</item>
+        <item>Reality</item>
+        <item>Science Fiction</item>
+        <item>Soap</item>
+        <item>Talk</item>
+        <item>War</item>
+        <item>Western</item>
+    </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

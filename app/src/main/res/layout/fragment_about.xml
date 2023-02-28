@@ -1,0 +1,436 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="detailsResponse"
+            type="com.fatih.popcorn.entities.remote.detailresponse.DetailResponse" />
+    </data>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:id="@+id/aboutMainLayout"
+    android:background="@drawable/recycler_bg"
+    android:layout_height="match_parent">
+
+
+<androidx.core.widget.NestedScrollView
+    android:id="@+id/nestedScrollView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="33dp"
+    android:fillViewport="true"
+    >
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/detailsLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideLineHorizontal5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.1" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideLineVertical4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.05" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideLineVertical3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.95" />
+
+
+        <TextView
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:id="@+id/textDescription"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/app_name"
+            android:fontFamily="@font/adamina"
+            android:includeFontPadding="false"
+            android:lineSpacingExtra="2dp"
+            android:textColor="@color/white"
+            android:textSize="13sp"
+            overview="@{detailsResponse.overview}"
+            app:layout_constraintEnd_toEndOf="@id/guideLineVertical3"
+            app:layout_constraintStart_toStartOf="@id/guideLineVertical4"
+            android:layout_marginTop="10dp"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:textColor="@color/white"
+                android:id="@+id/tür"
+                android:text="@string/t_r"
+                app:layout_constraintTop_toBottomOf="@id/textDescription"
+                app:layout_constraintStart_toStartOf="@id/textDescription"
+                android:layout_marginTop="20dp"
+                />
+
+
+        <androidx.constraintlayout.helper.widget.Flow
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintHorizontal_bias="0"
+            android:layout_marginEnd="20dp"
+            app:layout_constraintEnd_toEndOf="@id/guideLineVertical3"
+            app:layout_constraintTop_toTopOf="@id/tür"
+            app:layout_constraintStart_toStartOf="@id/originalNameText"
+            android:id="@+id/flow"
+            android:orientation="horizontal"
+            app:flow_wrapMode="chain2"
+            app:flow_horizontalAlign="start"
+            app:flow_horizontalGap="5dp"
+            app:flow_verticalGap="5dp"
+            app:flow_verticalStyle="spread_inside"
+            app:flow_horizontalStyle="packed" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/bilgiText"
+            android:text="@string/film_bilgisi"
+            app:layout_constraintTop_toBottomOf="@id/flow"
+            app:layout_constraintStart_toStartOf="@id/textDescription"
+            android:layout_marginTop="20dp"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:paddingStart="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/k_tarihi"
+            android:textColor="#B5ABAB"
+            android:layout_marginTop="10dp"
+            android:textSize="13sp"
+            app:layout_constraintTop_toBottomOf="@id/bilgiText"
+            app:layout_constraintStart_toStartOf="@id/textDescription"
+            android:id="@+id/releaseDate"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            releaseDate="@{detailsResponse.release_date}"
+            lastAirDate="@{detailsResponse.last_air_date}"
+            android:textSize="13sp"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="@id/originalNameText"
+            app:layout_constraintTop_toTopOf="@id/releaseDate"
+            app:layout_constraintEnd_toStartOf="@id/guideLineVertical3"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:id="@+id/releaseDateText"/>
+
+
+        <TextView
+                android:paddingStart="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/orjinal_smi"
+                android:textColor="#B5ABAB"
+                android:layout_marginTop="10dp"
+                android:textSize="13sp"
+                app:layout_constraintTop_toBottomOf="@id/releaseDateText"
+                app:layout_constraintStart_toStartOf="@id/textDescription"
+                android:id="@+id/originalName"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text='@{detailsResponse.original_name ?? detailsResponse.original_title ?? "-"}'
+            android:textSize="13sp"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toEndOf="@id/originalName"
+            app:layout_constraintTop_toTopOf="@id/originalName"
+            app:layout_constraintEnd_toStartOf="@id/guideLineVertical3"
+            android:layout_marginStart="50dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:id="@+id/originalNameText"/>
+
+
+        <TextView
+            android:paddingStart="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/durumu"
+            android:textColor="#B5ABAB"
+            android:layout_marginTop="10dp"
+            android:textSize="13sp"
+            app:layout_constraintTop_toBottomOf="@id/originalNameText"
+            app:layout_constraintStart_toStartOf="@id/textDescription"
+            android:id="@+id/status"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text='@{detailsResponse.status ?? "-"}'
+            android:textSize="13sp"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="@id/originalNameText"
+            app:layout_constraintTop_toTopOf="@id/status"
+            app:layout_constraintEnd_toStartOf="@id/guideLineVertical3"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:id="@+id/statusText"/>
+
+        <TextView
+            android:paddingStart="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/s_resi"
+            android:textColor="#B5ABAB"
+            android:layout_marginTop="10dp"
+            android:textSize="13sp"
+            app:layout_constraintTop_toBottomOf="@id/statusText"
+            app:layout_constraintStart_toStartOf="@id/textDescription"
+            android:id="@+id/time"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            runtime="@{detailsResponse.runtime}"
+            episode_runtime="@{detailsResponse.episode_run_time}"
+            android:textSize="13sp"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="@id/originalNameText"
+            app:layout_constraintTop_toTopOf="@id/time"
+            app:layout_constraintEnd_toStartOf="@id/guideLineVertical3"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:id="@+id/timeText"/>
+
+
+        <TextView
+            android:paddingStart="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/orjinal_dili"
+            android:textColor="#B5ABAB"
+            android:layout_marginTop="10dp"
+            android:textSize="13sp"
+            app:layout_constraintTop_toBottomOf="@id/timeText"
+            app:layout_constraintStart_toStartOf="@id/textDescription"
+            android:id="@+id/originalLanguage"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text='@{detailsResponse.original_language ?? "-"}'
+            android:textSize="13sp"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="@id/originalNameText"
+            app:layout_constraintTop_toTopOf="@id/originalLanguage"
+            app:layout_constraintEnd_toStartOf="@id/guideLineVertical3"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:id="@+id/originalLanguageText"/>
+
+
+        <TextView
+            android:paddingStart="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/yap_mc_lke"
+            android:textColor="#B5ABAB"
+            android:layout_marginTop="10dp"
+            android:textSize="13sp"
+            app:layout_constraintTop_toBottomOf="@id/originalLanguageText"
+            app:layout_constraintStart_toStartOf="@id/textDescription"
+            android:id="@+id/country"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            country="@{detailsResponse.production_countries}"
+            android:textSize="13sp"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="@id/originalNameText"
+            app:layout_constraintTop_toTopOf="@id/country"
+            app:layout_constraintEnd_toStartOf="@id/guideLineVertical3"
+            android:ellipsize="end"
+            android:id="@+id/countryText"/>
+
+        <TextView
+            android:paddingStart="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/irketler"
+            android:textColor="#B5ABAB"
+            android:layout_marginTop="10dp"
+            android:textSize="13sp"
+            app:layout_constraintTop_toBottomOf="@id/countryText"
+            app:layout_constraintStart_toStartOf="@id/textDescription"
+            android:id="@+id/companies"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            companies="@{detailsResponse.production_companies}"
+            android:textSize="13sp"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="@id/originalNameText"
+            app:layout_constraintTop_toTopOf="@id/companies"
+            app:layout_constraintEnd_toStartOf="@id/guideLineVertical3"
+            android:ellipsize="end"
+            android:id="@+id/companyText"/>
+
+        <TextView
+            android:paddingStart="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/b_t_esi"
+            android:textColor="#B5ABAB"
+            android:layout_marginTop="10dp"
+            android:textSize="13sp"
+            app:layout_constraintTop_toBottomOf="@id/companyText"
+            app:layout_constraintStart_toStartOf="@id/textDescription"
+            android:id="@+id/fund"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            budget="@{detailsResponse.budget}"
+            android:textSize="13sp"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="@id/originalNameText"
+            app:layout_constraintTop_toTopOf="@id/fund"
+            app:layout_constraintEnd_toStartOf="@id/guideLineVertical3"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:id="@+id/fundText"/>
+
+        <TextView
+            android:paddingStart="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/has_lat"
+            android:textColor="#B5ABAB"
+            android:layout_marginTop="10dp"
+            android:textSize="13sp"
+            app:layout_constraintTop_toBottomOf="@id/fundText"
+            app:layout_constraintStart_toStartOf="@id/textDescription"
+            android:id="@+id/income"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            revenue="@{detailsResponse.revenue}"
+            android:textSize="13sp"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="@id/originalNameText"
+            app:layout_constraintTop_toTopOf="@id/income"
+            app:layout_constraintEnd_toStartOf="@id/guideLineVertical3"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:id="@+id/incomeText"/>
+
+        <TextView
+            android:paddingStart="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tagline"
+            android:textColor="#B5ABAB"
+            android:layout_marginTop="10dp"
+            android:textSize="13sp"
+            app:layout_constraintTop_toBottomOf="@id/incomeText"
+            app:layout_constraintStart_toStartOf="@id/textDescription"
+            android:id="@+id/tagline"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            tag="@{detailsResponse.tagline}"
+            android:textSize="13sp"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="@id/originalNameText"
+            app:layout_constraintTop_toTopOf="@id/tagline"
+            app:layout_constraintEnd_toStartOf="@id/guideLineVertical3"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:id="@+id/taglineText"/>
+
+        <TextView
+            android:paddingStart="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/puan_ortalamas"
+            android:textColor="#B5ABAB"
+            android:layout_marginTop="10dp"
+            android:textSize="13sp"
+            app:layout_constraintTop_toBottomOf="@id/taglineText"
+            app:layout_constraintStart_toStartOf="@id/textDescription"
+            android:id="@+id/voteAverage"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="13sp"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="@id/originalNameText"
+            app:layout_constraintTop_toTopOf="@id/voteAverage"
+            app:layout_constraintEnd_toStartOf="@id/guideLineVertical3"
+            android:text='@{detailsResponse.vote_average.toString() ?? "-"}'
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:id="@+id/voteAverageText"/>
+
+        <TextView
+            android:paddingStart="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/oy_say_s"
+            android:textColor="#B5ABAB"
+            android:layout_marginTop="10dp"
+            android:textSize="13sp"
+            app:layout_constraintTop_toBottomOf="@id/voteAverageText"
+            app:layout_constraintStart_toStartOf="@id/textDescription"
+            android:id="@+id/voteCount"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text='@{detailsResponse.vote_count.toString() ?? "-"}'
+            android:textSize="13sp"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="@id/originalNameText"
+            app:layout_constraintTop_toTopOf="@id/voteCount"
+            app:layout_constraintEnd_toStartOf="@id/guideLineVertical3"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:id="@+id/voteCountText"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            app:layout_constraintTop_toBottomOf="@id/voteCountText"
+            android:visibility="invisible"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>
+
+</FrameLayout>
+</layout>
+
+
