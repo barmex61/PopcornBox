@@ -1,14 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.tabfragments.ReviewFragment">
+<layout>
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <data>
+        <variable
+            name="count"
+            type="Integer" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:paddingTop="35dp"
+        android:background="@drawable/recycler_bg"
+        android:layout_height="match_parent">
 
-</FrameLayout>
+        <androidx.constraintlayout.widget.Guideline
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.05"
+            android:id="@+id/verticalFirst"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.95"
+            android:id="@+id/verticalSecond"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            review="@{count}"
+            android:textStyle="bold"
+            android:id="@+id/reviewCountText"
+            android:textSize="14sp"
+            android:includeFontPadding="true"
+            app:layout_constraintStart_toStartOf="@id/verticalFirst"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/white"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/s_rala"
+            android:textStyle="bold"
+            android:id="@+id/sortText"
+            android:textSize="14sp"
+            android:includeFontPadding="true"
+            app:layout_constraintEnd_toEndOf="@id/verticalSecond"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="5dp"
+            android:drawablePadding="10dp"
+            android:layout_marginEnd="5dp"
+            android:drawableEnd="@drawable/ic_sort"
+            android:textColor="@color/white"
+            tools:ignore="UseCompatTextViewDrawableXml" />
+
+        <Spinner
+            android:layout_width="60dp"
+            android:layout_height="30dp"
+            android:id="@+id/spinner"
+            android:backgroundTint="@android:color/transparent"
+            app:layout_constraintTop_toTopOf="@id/sortText"
+            app:layout_constraintBottom_toBottomOf="@id/sortText"
+            app:layout_constraintStart_toStartOf="@id/sortText"
+            app:layout_constraintEnd_toEndOf="@id/sortText"
+
+            />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="7dp"
+            android:id="@+id/reciewRecyclerView"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@id/verticalFirst"
+            app:layout_constraintEnd_toEndOf="@id/verticalSecond"
+            app:layout_constraintTop_toBottomOf="@id/reviewCountText"
+            />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="invisible"
+            app:layout_constraintWidth_percent="0.5"
+            app:layout_constraintHeight_percent="0.5"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/shakelottie"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:id="@+id/lottieView"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

@@ -1,60 +1,104 @@
 package com.fatih.popcornbox.ui.tabfragments
 
+import android.content.res.Resources
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.fatih.popcornbox.R
+import com.fatih.popcornbox.adapter.CastRecyclerViewAdapter
+import com.fatih.popcornbox.databinding.FragmentCastBinding
+import com.fatih.popcornbox.other.CastAdapterListener
+import com.fatih.popcornbox.other.Status
+import com.fatih.popcornbox.ui.DetailsFragment
+import com.fatih.popcornbox.viewmodel.DetailsFragmentViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.*
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [CastFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class CastFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+@AndroidEntryPoint
+class CastFragment : Fragment(R.layout.fragment_cast) ,CastAdapterListener{
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+    private var _binding:FragmentCastBinding?=null
+    private val binding:FragmentCastBinding
+        get() = _binding!!
+    private var recyclerView:RecyclerView?=null
+    private var job: Job?=null
+    private val handler = CoroutineExceptionHandler{ _,throwable->
+        println("Caught exception $throwable")
+    }
+    private lateinit var castAdapter:CastRecyclerViewAdapter
+    private lateinit var viewModel: DetailsFragmentViewModel
+
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        _binding= FragmentCastBinding.inflate(inflater,container,false)
+        viewModel=ViewModelProvider(requireActivity())[DetailsFragmentViewModel::class.java]
+        doInitialization()
+        return binding.root
+    }
+
+    private fun doInitialization(){
+        castAdapter=CastRecyclerViewAdapter(R.layout.cast_rview_row,this)
+        recyclerView=binding.veilRecyclerView
+        recyclerView!!.layoutManager = GridLayoutManager(requireContext(),Resources.getSystem().displayMetrics.widthPixels/200)
+        castAdapter.vibrantColor=DetailsFragment.vibrantColor!!
+        recyclerView!!.adapter = castAdapter
+        observeLiveData()
+    }
+
+    override fun setImages(hideProgressBar: Boolean) {
+        _binding?.let {
+            if ( hideProgressBar && it.castProgressBar.visibility==View.VISIBLE){
+                it.castProgressBar.visibility=View.GONE
+            }
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_cast, container, false)
+    private fun observeLiveData(){
+        viewModel.creditsResponse.observe(viewLifecycleOwner){
+            when(it.status){
+                Status.SUCCESS->{
+                    it.data?.let {
+                        job?.cancel()
+                        job=lifecycleScope.launch(Dispatchers.Main + handler){
+                            val castList=async(Dispatchers.Default){
+                                it.cast.filter {
+                                    !it.profile_path.isNullOrEmpty() && it.profile_path != "null"
+                                }.distinctBy {
+                                    it.profile_path
+                                }.map { cast->
+                                    Triple(cast.name,cast.character,cast.profile_path!!)
+                                }
+                            }
+                            val crewList=async(Dispatchers.Default){
+                                it.crew.filter {
+                                    !it.profile_path.isNullOrEmpty() && it.profile_path != "null"
+                                }.distinctBy {
+                                    it.profile_path
+                                }.map { crew->
+                                    Triple(crew.name,crew.job,crew.profile_path!!)
+                                }
+                            }
+                            castAdapter.list=castList.await() + crewList.await()
+                        }
+                    }
+                }
+                else->Unit
+            }
+        }
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment CastFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            CastFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    override fun onDestroyView() {
+        job?.cancel()
+        recyclerView=null
+        _binding=null
+        super.onDestroyView()
     }
+
 }

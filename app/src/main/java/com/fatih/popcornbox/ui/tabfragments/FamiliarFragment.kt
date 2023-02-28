@@ -1,60 +1,118 @@
 package com.fatih.popcornbox.ui.tabfragments
 
+import android.content.res.Resources
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavOptions
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.fatih.popcornbox.R
+import com.fatih.popcornbox.adapter.RecommendFragmentAdapter
+import com.fatih.popcornbox.databinding.FragmentFamiliarBinding
+import com.fatih.popcornbox.other.Constants.checkIsItInMovieListOrNot
+import com.fatih.popcornbox.other.Constants.movieSearch
+import com.fatih.popcornbox.other.Constants.tvSearch
+import com.fatih.popcornbox.other.Status
+import com.fatih.popcornbox.ui.DetailsFragment
+import com.fatih.popcornbox.viewmodel.FamiliarFragmentViewModel
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+class FamiliarFragment:Fragment(R.layout.fragment_familiar) {
 
-/**
- * A simple [Fragment] subclass.
- * Use the [FamiliarFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class FamiliarFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private var _binding: FragmentFamiliarBinding?=null
+    private val binding: FragmentFamiliarBinding
+        get() = _binding!!
+    private var recyclerView: RecyclerView?=null
+    private var totalAvailablePages=2
+    private lateinit var onScrollListener: RecyclerView.OnScrollListener
+    private var selectedId=1
+    private lateinit var recommendAdapter: RecommendFragmentAdapter
+    private lateinit var viewModel: FamiliarFragmentViewModel
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        _binding= FragmentFamiliarBinding.inflate(inflater,container,false)
+        viewModel= ViewModelProvider(requireActivity())[FamiliarFragmentViewModel::class.java]
+        recommendAdapter= RecommendFragmentAdapter(R.layout.fragment_recommend_row)
+        selectedId=arguments?.getInt("id")?:selectedId
+        if (savedInstanceState?.getBoolean("isRotated") != true){
+            viewModel.resetData()
+        }
+        recommendAdapter.setMyOnClickLambda {url, id, pair,_ ->
+            pair?.let {
+                findNavController().navigate(R.id.action_detailsFragment_self, bundleOf("id" to id,"vibrantColor" to it.first,"darkMutedColor" to it.second,"url" to url,"isTvShow" to if (DetailsFragment.isItInMovieList) movieSearch else tvSearch),
+                    NavOptions.Builder().setPopUpTo(R.id.detailsFragment,true).build())
+            }?: findNavController().navigate(R.id.action_detailsFragment_self, bundleOf("id" to id,"vibrantColor" to R.color.white,"darkMutedColor" to R.color.black2, "url" to url,"isTvShow" to if (DetailsFragment.isItInMovieList) movieSearch else tvSearch),
+                NavOptions.Builder().setPopUpTo(R.id.detailsFragment,true).build())
+        }
+        doInitialization()
+        return binding.root
+    }
+
+    private fun doInitialization(){
+        recyclerView=binding.familiarRecyclerView
+        recyclerView!!.layoutManager = GridLayoutManager(requireContext(), Resources.getSystem().displayMetrics.widthPixels/200)
+        recyclerView!!.adapter = recommendAdapter
+        onScrollListener=object: RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                if (!recyclerView.canScrollVertically(1) && viewModel.familiarCurrentPage.value!! < totalAvailablePages) {
+                    viewModel.familiarCurrentPage.value= viewModel.familiarCurrentPage.value!! +1
+                    if (checkIsItInMovieListOrNot()){
+                        viewModel.getFamiliars(movieSearch,selectedId)
+                    }else{
+                        viewModel.getFamiliars(tvSearch,selectedId)
+                    }
+                }
+                super.onScrolled(recyclerView, dx, dy)
+            }
+        }
+        recyclerView!!.addOnScrollListener(onScrollListener)
+        if (checkIsItInMovieListOrNot()){
+            viewModel.getFamiliars(movieSearch,selectedId)
+        }else{
+            viewModel.getFamiliars(tvSearch,selectedId)
+        }
+        observeLiveData()
+    }
+
+    private fun observeLiveData(){
+        viewModel.discoverResponse.observe(viewLifecycleOwner){
+            when(it.status){
+                Status.SUCCESS->{
+                    it.data?.let {response->
+                        totalAvailablePages=response.total_pages
+                        recommendAdapter.list=response.results
+                    }?:{
+                        showLottie()
+                    }
+                    if (it.data?.total_results == 0){
+                        showLottie()
+                    }
+                }
+                else->Unit
+            }
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_familiar, container, false)
+    private fun showLottie(){
+        binding.familiarLottie.visibility=View.VISIBLE
+        binding.familiarLottie.playAnimation()
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment FamiliarFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            FamiliarFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putBoolean("isRotated",true)
+        println("onsave")
+        super.onSaveInstanceState(outState)
+    }
+
+    override fun onDestroyView() {
+        recyclerView?.adapter = null
+        recyclerView=null
+        _binding=null
+        super.onDestroyView()
     }
 }
