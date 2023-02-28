@@ -77,7 +77,6 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
         var seasonRating :String?=null
         var seasonRatingFloat:Float?=null
         var isItInMovieList=false
-
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -87,7 +86,6 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
                 binding.favoriteLottie.visibility=View.VISIBLE
             }
             override fun onAnimationEnd(animation: Animator) {
-                println("end")
                 binding.favoriteLottie.visibility=View.GONE
             }
             override fun onAnimationCancel(animation: Animator) {
@@ -98,11 +96,11 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
             override fun onAnimationRepeat(animation: Animator) = Unit
         }
         binding.favoriteLottie.addAnimatorListener(animatorListener)
-        doInitialization()
+        doInitialization(savedInstanceState)
         return binding.root
     }
 
-    private fun doInitialization() {
+    private fun doInitialization(savedInstanceState: Bundle?) {
         viewModel = ViewModelProvider(requireActivity())[DetailsFragmentViewModel::class.java]
         setStatusBarPadding()
         arguments?.let {
@@ -127,7 +125,6 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
         fragmentViewPager=binding.detailsViewPager.apply {
             this.offscreenPageLimit=1
         }
-        setupPosterViewPager(posterList,backgroundList)
         binding.likeButton.setOnClickListener { favorite() }
         binding.saveButton.setOnClickListener { watchList(isItInFavorite) }
         binding.watchListButton.setOnClickListener { findNavController().navigate(DetailsFragmentDirections.actionDetailsFragmentToWatchListFragment()) }
@@ -210,7 +207,6 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
         }
 
         viewModel.isItInDatabase.observe(viewLifecycleOwner){response->
-            println("normal $response")
             response?.let {
                 if(it){
                     isItInDatabase=true
@@ -331,7 +327,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
     private fun setLayoutVisibility(show: Boolean, showToast: Boolean, message: String?) {
         if (showToast) {
             binding.mainLayout.visibility = View.GONE
-            Snackbar.make(requireView(),message.toString(),Snackbar.LENGTH_INDEFINITE).show()
+            Snackbar.make(requireView(),message.toString(),Snackbar.LENGTH_SHORT).show()
             return
         }
         if (show) {
@@ -398,9 +394,9 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
         val isTvShow=!isItInMovieList
         selectedResponse?.let { detailResponse ->
             val roomEntity= RoomEntity(isFavorite,detailResponse.name?:detailResponse.original_name?:detailResponse.original_title?:"",
-                detailResponse.last_air_date?:detailResponse.release_date!!,
-                detailResponse.poster_path!!,
-                detailResponse.vote_average!!,
+                detailResponse.last_air_date?:detailResponse.release_date?:"",
+                detailResponse.poster_path?:detailResponse.backdrop_path?:"",
+                detailResponse.vote_average?:0.0,
                 isTvShow,
                 detailResponse.id!!.toLong())
             if(!isItInDatabase){

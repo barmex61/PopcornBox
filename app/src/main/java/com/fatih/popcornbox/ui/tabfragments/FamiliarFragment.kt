@@ -61,7 +61,7 @@ class FamiliarFragment:Fragment(R.layout.fragment_familiar) {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 if (!recyclerView.canScrollVertically(1) && viewModel.familiarCurrentPage.value!! < totalAvailablePages) {
                     viewModel.familiarCurrentPage.value= viewModel.familiarCurrentPage.value!! +1
-                    if (checkIsItInMovieListOrNot()){
+                    if (DetailsFragment.isItInMovieList){
                         viewModel.getFamiliars(movieSearch,selectedId)
                     }else{
                         viewModel.getFamiliars(tvSearch,selectedId)
@@ -71,7 +71,7 @@ class FamiliarFragment:Fragment(R.layout.fragment_familiar) {
             }
         }
         recyclerView!!.addOnScrollListener(onScrollListener)
-        if (checkIsItInMovieListOrNot()){
+        if (DetailsFragment.isItInMovieList){
             viewModel.getFamiliars(movieSearch,selectedId)
         }else{
             viewModel.getFamiliars(tvSearch,selectedId)
@@ -105,7 +105,6 @@ class FamiliarFragment:Fragment(R.layout.fragment_familiar) {
 
     override fun onSaveInstanceState(outState: Bundle) {
         outState.putBoolean("isRotated",true)
-        println("onsave")
         super.onSaveInstanceState(outState)
     }
 

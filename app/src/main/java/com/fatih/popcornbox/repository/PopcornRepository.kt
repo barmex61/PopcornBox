@@ -44,6 +44,7 @@ class PopcornRepository (
                     Resource.success(it)
                 }?: Resource.error("Response body empty")
             }else{
+                println(result.message()+result.errorBody().toString())
                 Resource.error("Response failed")
             }
         }catch (e:Exception){

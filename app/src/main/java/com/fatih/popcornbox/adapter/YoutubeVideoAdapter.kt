@@ -24,7 +24,7 @@ class YoutubeVideoAdapter (val layout:Int):BaseAdapter<İtem,FragmentTrailerRowB
 
     override var diffUtil: DiffUtil.ItemCallback<İtem> = object :DiffUtil.ItemCallback<İtem>(){
         override fun areContentsTheSame(oldItem: İtem, newItem: İtem): Boolean {
-            return oldItem.id==newItem.id
+            return oldItem.contentDetails==newItem.contentDetails && oldItem.snippet==newItem.snippet && oldItem.statistics==newItem.statistics
         }
 
         override fun areItemsTheSame(oldItem: İtem, newItem: İtem): Boolean {

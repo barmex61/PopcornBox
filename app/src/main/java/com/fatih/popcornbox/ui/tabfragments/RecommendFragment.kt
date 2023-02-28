@@ -61,7 +61,7 @@ class RecommendFragment:Fragment(R.layout.fragment_recommend) {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 if (!recyclerView.canScrollVertically(1) && viewModel.recommendationCurrentPage.value!! < totalAvailablePages) {
                     viewModel.recommendationCurrentPage.value= viewModel.recommendationCurrentPage.value!! +1
-                    if (Constants.checkIsItInMovieListOrNot()){
+                    if (DetailsFragment.isItInMovieList){
                         viewModel.getRecommendations(movieSearch,selectedId)
                     }else{
                         viewModel.getRecommendations(tvSearch,selectedId)
@@ -71,7 +71,7 @@ class RecommendFragment:Fragment(R.layout.fragment_recommend) {
             }
         }
         recyclerView!!.addOnScrollListener(onScrollListener)
-        if (Constants.checkIsItInMovieListOrNot()){
+        if (DetailsFragment.isItInMovieList){
             viewModel.getRecommendations(movieSearch,selectedId)
         }else{
             viewModel.getRecommendations(tvSearch,selectedId)

@@ -17,9 +17,10 @@
     android:id="@+id/reviewParent"
     android:layout_height="wrap_content">
 
-    <de.hdodenhof.circleimageview.CircleImageView
+    <com.makeramen.roundedimageview.RoundedImageView
         android:layout_width="60dp"
         android:layout_height="60dp"
+        app:riv_corner_radius="20dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="15dp"

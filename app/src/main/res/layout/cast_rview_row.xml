@@ -26,7 +26,8 @@
                >
 
 
-    <de.hdodenhof.circleimageview.CircleImageView
+    <com.makeramen.roundedimageview.RoundedImageView
+        app:riv_corner_radius="20dp"
         android:layout_width="0dp"
         app:layout_constraintWidth_percent="0.8"
         android:scaleType="centerCrop"

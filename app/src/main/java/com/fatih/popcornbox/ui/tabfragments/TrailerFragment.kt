@@ -19,6 +19,7 @@ import com.fatih.popcornbox.other.Constants.tvSearch
 import com.fatih.popcornbox.other.Status
 import com.fatih.popcornbox.ui.DetailsFragment
 import com.fatih.popcornbox.viewmodel.TrailerFragmentViewModel
+import com.google.android.youtube.player.YouTubePlayerFragment
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
@@ -49,14 +50,17 @@ class TrailerFragment @Inject constructor(): Fragment(R.layout.fragment_trailer)
     private var mCurrentVideoId=""
     private val tracker=YouTubePlayerTracker()
     private var isThereAnyVideoUrl=false
-    private var isRotated=false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding= FragmentTrailerBinding.inflate(inflater,container,false)
+        viewModel= ViewModelProvider(requireActivity())[TrailerFragmentViewModel::class.java]
+        if (savedInstanceState?.getBoolean("isRotated")!=true){
+            viewModel.resetData()
+        }
         doInitialization()
         mCurrentVideoId=savedInstanceState?.getString("video_id")?:myVideoId
         mCurrentTime=savedInstanceState?.getFloat("current_time")?:mCurrentTime
-        isRotated=savedInstanceState?.getBoolean("isRotated")?:isRotated
+
         return binding.root
     }
 
@@ -73,7 +77,6 @@ class TrailerFragment @Inject constructor(): Fragment(R.layout.fragment_trailer)
 
     private fun doInitialization(){
         setupStatusBar(controlOrientation())
-        viewModel= ViewModelProvider(requireActivity())[TrailerFragmentViewModel::class.java]
         youtubePlayerView=binding.youtubePlayer
         youtubePlayerView.enableAutomaticInitialization=false
         if (controlOrientation()){
@@ -112,14 +115,10 @@ class TrailerFragment @Inject constructor(): Fragment(R.layout.fragment_trailer)
         youtubePlayerView.initialize(listener as AbstractYouTubePlayerListener,iFramePlayerOptions)
         youtubePlayerView.addFullScreenListener(object :YouTubePlayerFullScreenListener{
             override fun onYouTubePlayerEnterFullScreen() {
-                youtubePlayerView.removeYouTubePlayerListener(listener as AbstractYouTubePlayerListener)
-                youtubePlayerView.addYouTubePlayerListener(listener as AbstractYouTubePlayerListener)
                 requireActivity().requestedOrientation= ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
             }
 
             override fun onYouTubePlayerExitFullScreen() {
-                youtubePlayerView.removeYouTubePlayerListener(listener as AbstractYouTubePlayerListener)
-                youtubePlayerView.addYouTubePlayerListener(listener as AbstractYouTubePlayerListener)
                 requireActivity().requestedOrientation=ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
             }
         })
@@ -143,10 +142,10 @@ class TrailerFragment @Inject constructor(): Fragment(R.layout.fragment_trailer)
         }else{
             viewModel.getVideos(tvSearch,selectedId)
         }
-
         observeLiveData()
-
     }
+
+
     private fun observeLiveData(){
         viewModel.videoResponse.observe(viewLifecycleOwner){resource->
             if(resource!=null){
@@ -207,9 +206,7 @@ class TrailerFragment @Inject constructor(): Fragment(R.layout.fragment_trailer)
     }
 
     override fun onDestroy() {
-        if (!isRotated){
-            viewModel.resetData()
-        }
+
         requireActivity().requestedOrientation=ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
         youtubeVideoAdapter=null
         isThereAnyVideoUrl=false
