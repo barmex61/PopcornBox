@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PopcornApp</string>
+    <string name="app_name">Popcorn Box</string>
     <string name="p0pc0rn_time">P0PC0RN\u0020Box</string>
     <string name="movies">FİLMLER</string>
     <string name="tv_shows">DİZİLER</string>
@@ -7,6 +7,7 @@
     <string name="genres">Türler</string>
     <string name="sort_by">Sıralama</string>
     <string name="quality">Kalite</string>
+    <string name="abouts">Hakkında</string>
     <string name="communications">İletişim</string>
     <string name="favorites">Favoriler</string>
     <string name="notifications">Bildirimler</string>
@@ -23,10 +24,14 @@
     <string name="orjinal_smi">Orijinal\u0020İsmi</string>
     <string name="durumu">Durumu</string>
     <string name="s_resi">Süresi</string>
+    <string name="coming_soon">Coming soon</string>
+    <string name="cancel">İptal et</string>
+    <string name="ok">Tamam</string>
     <string name="orjinal_dili">Orijinal\u0020Dili</string>
     <string name="yap_mc_lke">Yapımcı Ülke</string>
     <string name="irketler">Şirketler</string>
     <string name="b_t_esi">Bütçesi</string>
+    <string name="moviedb">Bu uygulama film ve dizi içeriklerini https://www.themoviedb.org/ api hizmetini kullanarak elde eder</string>
     <string name="has_lat">Hasılatı</string>
     <string name="tagline">Tagline</string>
     <string name="puan_ortalamas">Puan\u0020Ortalaması</string>
@@ -104,5 +109,5 @@
         <item>Savaş</item>
         <item>Western</item>
     </string-array>
-
+    <string name="reset">Sıfırla</string>
 </resources>

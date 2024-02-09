@@ -20,6 +20,7 @@ import com.fatih.popcornbox.other.Constants.movieSearch
 import com.fatih.popcornbox.other.Constants.tvSearch
 import com.fatih.popcornbox.other.Status
 import com.fatih.popcornbox.viewmodel.DetailsFragmentViewModel
+import com.google.android.gms.ads.AdRequest
 
 class ReviewFragment:Fragment(R.layout.fragment_review) {
 
@@ -36,6 +37,8 @@ class ReviewFragment:Fragment(R.layout.fragment_review) {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         _binding=DataBindingUtil.inflate(inflater,R.layout.fragment_review,container,false)
+        val adRequest = AdRequest.Builder().build()
+        binding.adView.loadAd(adRequest)
         selectedId= arguments?.getInt("id") ?:selectedId
         vibrantColor = arguments?.getInt("vibrantColor") ?: vibrantColor
         viewModel=ViewModelProvider(requireActivity())[DetailsFragmentViewModel::class.java]

@@ -235,6 +235,8 @@
                 android:visibility="@{isLoading?View.VISIBLE:View.INVISIBLE,default=invisible}"
                 android:id="@+id/progressBar"/>
 
+
+
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
         <com.google.android.material.navigation.NavigationView
@@ -252,7 +254,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -262,29 +264,48 @@
                 android:gravity="center_vertical"
                 >
 
-                <TextView
-                    android:layout_width="0dp"
+                <com.google.android.gms.ads.AdView
+                    xmlns:ads="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/adView"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginEnd="15dp"
-                    android:layout_weight="1"
-                    android:ellipsize="none"
-                    android:fontFamily="@font/arizonia"
-                    android:includeFontPadding="false"
-                    android:singleLine="true"
-                    android:text="@string/popcorn_time"
-                    android:textColor="@color/white"
-                    android:textSize="25sp" />
-                <ImageView
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:src="@drawable/popcorn"
-                    android:contentDescription="@string/app_name"
-                    android:layout_marginEnd="15dp"
-                    />
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    ads:adSize="BANNER"
+                    ads:adUnitId="ca-app-pub-7923951045985903/3556164641">
+                </com.google.android.gms.ads.AdView>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginEnd="15dp"
+                        android:layout_weight="1"
+                        android:ellipsize="none"
+                        android:fontFamily="@font/arizonia"
+                        android:includeFontPadding="false"
+                        android:singleLine="true"
+                        android:text="@string/popcorn_time"
+                        android:textColor="@color/white"
+                        android:textSize="25sp" />
+                    <ImageView
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:src="@drawable/popcorn_logo"
+                        android:contentDescription="@string/app_name"
+                        android:layout_marginEnd="15dp"
+                        />
+                </LinearLayout>
+
             </LinearLayout>
 
         </com.google.android.material.navigation.NavigationView>
+
+
 
     </androidx.drawerlayout.widget.DrawerLayout>
 </layout>

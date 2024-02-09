@@ -11,6 +11,7 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.DecodeFormat
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
@@ -22,20 +23,35 @@ import com.fatih.popcornbox.entities.remote.detailresponse.ProductionCountry
 import com.fatih.popcornbox.entities.remote.discoverresponse.DiscoverResponse
 import com.fatih.popcornbox.entities.remote.youtuberesponse.YoutubeResponse
 import com.fatih.popcornbox.other.Constants.base_img_url
+import com.fatih.popcornbox.other.Constants.base_original
 import com.fatih.popcornbox.ui.PopcornApplication
 import java.text.SimpleDateFormat
 import java.util.*
 
-@BindingAdapter("url","fitXY","isYoutube")
-fun ImageView.setImageUrl(url:String?,fitXY: Boolean,isYoutube:Boolean){
+@BindingAdapter("url","fitXY","isYoutube","isPoster")
+fun ImageView.setImageUrl(url:String?,fitXY: Boolean,isYoutube:Boolean,isPoster:Boolean){
 
     this.alpha=0.2f
     val fadeScaleAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_scale_animation)
-    this.scaleType=if (fitXY){ ScaleType.FIT_XY }else{ ScaleType.CENTER_CROP }
-    val requestOptions= RequestOptions().diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).placeholder(R.drawable.popcorn)
-            .centerCrop()
+    val baseUrl= if (isYoutube) "" else {
+       if (isPoster){
+           base_original
+       }else{
+           base_img_url
+       }
+    }
+    val requestOptions=
+        if (fitXY){
+            this.scaleType=ScaleType.FIT_XY
+            RequestOptions().diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).placeholder(R.drawable.popcorn_logo).format(
+                DecodeFormat.PREFER_RGB_565).fitCenter()
+        }else{
+            this.scaleType=ScaleType.CENTER_CROP
+            RequestOptions().diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).placeholder(R.drawable.popcorn_logo).format(
+                DecodeFormat.PREFER_RGB_565
+            ).centerCrop()
+        }
 
-    val baseUrl= if (isYoutube) "" else base_img_url
     try {
         Glide.with(this.context).applyDefaultRequestOptions(requestOptions).load(baseUrl+url).listener(object :RequestListener<Drawable>{
             override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {

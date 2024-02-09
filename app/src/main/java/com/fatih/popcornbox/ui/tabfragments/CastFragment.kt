@@ -17,6 +17,7 @@ import com.fatih.popcornbox.other.CastAdapterListener
 import com.fatih.popcornbox.other.Status
 import com.fatih.popcornbox.ui.DetailsFragment
 import com.fatih.popcornbox.viewmodel.DetailsFragmentViewModel
+import com.google.android.gms.ads.AdRequest
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 
@@ -38,6 +39,8 @@ class CastFragment : Fragment(R.layout.fragment_cast) ,CastAdapterListener{
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         _binding= FragmentCastBinding.inflate(inflater,container,false)
+        val adRequest = AdRequest.Builder().build()
+        binding.adView.loadAd(adRequest)
         viewModel=ViewModelProvider(requireActivity())[DetailsFragmentViewModel::class.java]
         doInitialization()
         return binding.root
@@ -46,7 +49,9 @@ class CastFragment : Fragment(R.layout.fragment_cast) ,CastAdapterListener{
     private fun doInitialization(){
         castAdapter=CastRecyclerViewAdapter(R.layout.cast_rview_row,this)
         recyclerView=binding.veilRecyclerView
-        recyclerView!!.layoutManager = GridLayoutManager(requireContext(),Resources.getSystem().displayMetrics.widthPixels/200)
+        val columnWidth = resources.getDimensionPixelSize(R.dimen.grid_column_width)
+        val spanCount = maxOf(1, Resources.getSystem().displayMetrics.widthPixels / columnWidth)
+        recyclerView!!.layoutManager= GridLayoutManager(requireContext(), spanCount)
         castAdapter.vibrantColor=DetailsFragment.vibrantColor!!
         recyclerView!!.adapter = castAdapter
         observeLiveData()

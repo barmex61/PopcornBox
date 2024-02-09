@@ -89,7 +89,7 @@
             motion:layout_constraintEnd_toEndOf="@id/guideLineVertical5"
             android:id="@+id/trailerButton"
             motion:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="50dp">
+            android:layout_marginBottom="120dp">
         </Constraint>
 
     </ConstraintSet>

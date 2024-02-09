@@ -17,12 +17,12 @@
         <ImageView
             android:layout_width="120dp"
             android:layout_height="150dp"
-            android:scaleType="centerCrop"
             android:id="@+id/recommendImageView"
             app:layout_constraintStart_toStartOf="parent"
             url="@{watchList.posterPath}"
             fitXY="@{false}"
             isYoutube="@{false}"
+            isPoster="@{false}"
             app:layout_constraintTop_toTopOf="parent"
             />
 

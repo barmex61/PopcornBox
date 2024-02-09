@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PopcornApp</string>
+    <string name="app_name">Popcorn Box</string>
     <string name="p0pc0rn_time">P0PC0RN\u0020Box</string>
     <string name="movies">MOVIES</string>
     <string name="tv_shows">TV SHOWS</string>
@@ -20,8 +20,13 @@
     <string name="trailer">TRAILER</string>
     <string name="seasons">SEASONS</string>
     <string name="film_bilgisi">About</string>
+    <string name="abouts">About</string>
+    <string name="coming_soon">Coming soon</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">Apply</string>
     <string name="orjinal_smi">Original Name</string>
     <string name="durumu">Status</string>
+    <string name="moviedb">This app gets movie and series content via https://www.themoviedb.org/</string>
     <string name="s_resi">Runtime</string>
     <string name="orjinal_dili">Original language</string>
     <string name="yap_mc_lke">Production countries</string>
@@ -102,6 +107,6 @@
         <item>War</item>
         <item>Western</item>
     </string-array>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="reset">Reset</string>
+
 </resources>

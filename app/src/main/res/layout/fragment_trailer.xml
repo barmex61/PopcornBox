@@ -2,6 +2,13 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="isLoading"
+            type="Boolean"
+            android:value="true"/>
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -44,6 +51,17 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
+        
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/trailerProgress"
+            app:layout_constraintTop_toTopOf="@id/youtube_player"
+            app:layout_constraintBottom_toBottomOf="@id/youtube_player"
+            app:layout_constraintStart_toStartOf="@id/youtube_player"
+            app:layout_constraintEnd_toEndOf="@id/youtube_player"
+            android:visibility="@{isLoading ? View.VISIBLE : View.GONE}"
+            />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

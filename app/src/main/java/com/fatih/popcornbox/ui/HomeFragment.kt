@@ -2,6 +2,7 @@ package com.fatih.popcornbox.ui
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
+import android.content.Context
 import android.content.res.Resources
 import android.os.Bundle
 import android.text.Editable
@@ -11,6 +12,8 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import android.widget.LinearLayout
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.core.view.updatePadding
@@ -40,10 +43,12 @@ import com.fatih.popcornbox.other.Constants.tv_show_genre_list
 import com.fatih.popcornbox.other.State
 import com.fatih.popcornbox.other.Status
 import com.fatih.popcornbox.viewmodel.HomeFragmentViewModel
+import com.google.android.gms.ads.AdRequest
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.util.Calendar
 
 
 class HomeFragment : Fragment(R.layout.fragment_home) {
@@ -58,24 +63,25 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private var searchText=""
     private var genres=""
     private var indexPosition=0
-    private var recyclerView:RecyclerView?=null
     private var searchCategory= movieSearch
     private var tvShowSortPosition=0
     private lateinit var onScrollListener: OnScrollListener
     private lateinit var adapter: HomeFragmentAdapter
-    private var view:View?=null
     private var movieSortPosition=0
     private lateinit var viewModel:HomeFragmentViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         _binding=DataBindingUtil.inflate(inflater,R.layout.fragment_home,container,false)
-        view=binding.root
+        val adRequest = AdRequest.Builder().build()
+        binding.adView.loadAd(adRequest)
         viewModel=ViewModelProvider(requireActivity())[HomeFragmentViewModel::class.java]
         genres=savedInstanceState?.getString("genres",genres)?:genres
         sortString=savedInstanceState?.getString("sort",sortString)?:sortString
         doInitialization()
-        return view
+        return binding.root
     }
+
+
 
     override fun onSaveInstanceState(outState: Bundle) {
 
@@ -224,9 +230,10 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         })
     }
     private fun setupRecyclerView(){
-        recyclerView =binding.moviesRecyclerView
-        recyclerView!!.adapter=adapter
-        recyclerView!!.layoutManager= GridLayoutManager(requireContext(), Resources.getSystem().displayMetrics.widthPixels/200)
+        binding.moviesRecyclerView.adapter=adapter
+        val columnWidth = resources.getDimensionPixelSize(R.dimen.grid_column_width)
+        val spanCount = maxOf(1, Resources.getSystem().displayMetrics.widthPixels / columnWidth)
+        binding.moviesRecyclerView.layoutManager= GridLayoutManager(requireContext(), spanCount)
         onScrollListener=object:OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 if (!recyclerView.canScrollVertically(1) && viewModel.currentPage.value!! < totalAvailablePages) {
@@ -244,7 +251,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 super.onScrolled(recyclerView, dx, dy)
             }
         }
-        recyclerView!!.addOnScrollListener(onScrollListener)
+        binding.moviesRecyclerView.addOnScrollListener(onScrollListener)
     }
 
 
@@ -302,19 +309,22 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         viewModel.discoverData.observe(viewLifecycleOwner){
             when(it.status){
                 Status.LOADING->{
+                    println("loading")
                     setProgressBarVisibility(true)
                 }
                 Status.SUCCESS->{
+                    println("success ${it.data?.results?.size}")
                     setProgressBarVisibility(false)
                     adapter.list=it.data?.results?: listOf()
                     totalAvailablePages=it.data?.total_pages?:1
                 }
                 Status.ERROR->{
+                    println("error ${it.message}")
                     setProgressBarVisibility(false)
                 }
             }
         }
-
+        println("size "+adapter.list.size)
     }
 
     private fun setNavigation(it: MenuItem){
@@ -323,11 +333,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
                 val list= arrayOf("Movie","Tv Show")
                 val alertDialog=AlertDialog.Builder(requireContext())
-                alertDialog.setTitle("Index")
+                alertDialog.setTitle(resources.getString(R.string.index))
                 alertDialog.setSingleChoiceItems(list,indexPosition
                 ) { _, p1 -> indexPosition = p1 }
-                alertDialog.setNegativeButton("Cancel"
-                ) { _, _ -> }.setPositiveButton("OK"){_,_->
+                alertDialog.setNegativeButton(resources.getString(R.string.cancel)
+                ) { _, _ -> }.setPositiveButton(resources.getString(R.string.ok)){_,_->
                     if(indexPosition==0){
                         movieButtonClicked()
                         binding.drawableLayout.closeDrawer(GravityCompat.START)
@@ -345,8 +355,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                         movie_genre_list, movie_booleanArray
                     ) { _, p1, p2 -> movie_booleanArray[p1] = p2 }
 
-                    alertDialog.setTitle("Genre").setNegativeButton("CANCEL"
-                    ) { _, _ -> }.setPositiveButton("OK") { _, _ ->
+                    alertDialog.setTitle(resources.getString(R.string.genres)).setNegativeButton(resources.getString(R.string.cancel)
+                    ) { _, _ -> }.setPositiveButton(resources.getString(R.string.ok)) { _, _ ->
                         genres = ""
                         movie_booleanArray.forEachIndexed { index, _ ->
                             if (movie_booleanArray[index]) {
@@ -361,7 +371,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                         movieButtonClicked()
                         binding.drawableLayout.closeDrawer(GravityCompat.START)
                     }
-                    alertDialog.setNeutralButton("Reset"
+                    alertDialog.setNeutralButton(resources.getString(R.string.reset)
                     ) { _, _ ->
                         movie_booleanArray.fill(false)
                         genres=""
@@ -373,8 +383,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                         tv_show_genre_list, tv_show_booleanArray
                     ) { _, p1, p2 -> tv_show_booleanArray[p1] = p2 }
 
-                    alertDialog.setTitle("Genre").setNegativeButton("CANCEL"
-                    ) { _, _ -> }.setPositiveButton("OK") { _, _ ->
+                    alertDialog.setTitle(resources.getString(R.string.genres)).setNegativeButton(resources.getString(R.string.cancel)
+                    ) { _, _ -> }.setPositiveButton(resources.getString(R.string.ok)) { _, _ ->
                         genres= ""
                         tv_show_booleanArray.forEachIndexed { index, _ ->
                             if (tv_show_booleanArray[index]) {
@@ -389,7 +399,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                         tvShowButtonClicked()
                         binding.drawableLayout.closeDrawer(GravityCompat.START)
                     }
-                    alertDialog.setNeutralButton("Reset"
+                    alertDialog.setNeutralButton(resources.getString(R.string.reset)
                     ) { _, _ ->
                         tv_show_booleanArray.fill(false)
                         genres=""
@@ -403,10 +413,10 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             R.id.sort->{
                 val alertDialog=AlertDialog.Builder(requireContext())
                 if(checkIsItInMovieListOrNot()){
-                    alertDialog.setTitle("Sort By").setSingleChoiceItems(
+                    alertDialog.setTitle(resources.getString(R.string.s_rala)).setSingleChoiceItems(
                         sortArray,movieSortPosition
-                    ) { _, p1 -> movieSortPosition = p1 }.setNegativeButton("CANCEL"
-                    ) { _, _ -> }.setPositiveButton("OK") { _, _ ->
+                    ) { _, p1 -> movieSortPosition = p1 }.setNegativeButton(resources.getString(R.string.cancel)
+                    ) { _, _ -> }.setPositiveButton(resources.getString(R.string.ok)) { _, _ ->
                         when(movieSortPosition){
                             0->sortString= sortList[0]
                             1->sortString= sortList[3]
@@ -415,10 +425,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                         movieButtonClicked()
                     }.show()
                 }else{
-                    alertDialog.setTitle("Sort By").setSingleChoiceItems(
+                    alertDialog.setTitle(resources.getString(R.string.s_rala)).setSingleChoiceItems(
                         sortArray,tvShowSortPosition
-                    ) { _, p1 -> tvShowSortPosition = p1 }.setNegativeButton("CANCEL"
-                    ) { _, _ -> }.setPositiveButton("OK") { _, _ ->
+                    ) { _, p1 -> tvShowSortPosition = p1 }.setNegativeButton(resources.getString(R.string.cancel)) { _, _ -> }.setPositiveButton(resources.getString(R.string.ok)) { _, _ ->
                         when(tvShowSortPosition){
                             0->sortString= sortList[0]
                             1->sortString= sortList[1]
@@ -429,14 +438,30 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 }
 
             }
+            R.id.abouts->{
+                AlertDialog.Builder(requireContext()).apply {
+                    setMessage(resources.getString(R.string.moviedb))
+                    setIcon(R.drawable.moviedb)
+                    setTitle(resources.getString(R.string.abouts))
+                }.show()
+            }
             R.id.like->{
                 binding.drawableLayout.closeDrawer(GravityCompat.START)
                 findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToWatchListFragment())
             }
             else ->{
-                Snackbar.make(requireView(),"Coming soon",Snackbar.LENGTH_INDEFINITE).show()
+                Snackbar.make(requireView(),resources.getString(R.string.coming_soon),Snackbar.LENGTH_SHORT).show()
             }
         }
+    }
+
+    @SuppressLint("InternalInsetResource")
+    fun getNavigationBarHeight(context: Context): Int {
+        val resources = context.resources
+        val resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android")
+        return if (resourceId > 0) {
+            resources.getDimensionPixelSize(resourceId)
+        } else 0
     }
 
     private fun setProgressBarVisibility(isVisible:Boolean){
@@ -448,10 +473,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     override fun onDestroyView() {
-        recyclerView?.removeOnScrollListener(onScrollListener)
-        recyclerView?.adapter=null
-        recyclerView=null
-        view=null
+        binding.moviesRecyclerView.removeOnScrollListener(onScrollListener)
+        binding.moviesRecyclerView.adapter=null
         _binding=null
         super.onDestroyView()
     }

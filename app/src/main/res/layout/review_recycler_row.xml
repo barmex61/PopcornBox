@@ -28,8 +28,8 @@
         url="@{result.author_details.avatar_path}"
         fitXY="@{false}"
         isYoutube="@{false}"
+        isPoster="@{false}"
         android:id="@+id/reviewProfileImg"
-        android:scaleType="centerCrop"
         />
 
     <TextView

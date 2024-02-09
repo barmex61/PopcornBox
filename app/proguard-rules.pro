@@ -22,3 +22,11 @@
 
 -keep class com.fatih.popcornbox.entities.remote.**{*;}
 -keep class com.fatih.popcornbox.BuildConfig.*{ * ;}
+-keep class retrofit2.** { *; }
+-keep class okhttp3.** { *; }
+-keep class com.google.gson.** { *; }
+-keepattributes Signature
+-keepattributes Exceptions
+-keepattributes Annotation
+-keepattributes EnclosingMethod
+-keepattributes InnerClasses

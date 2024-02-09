@@ -27,9 +27,9 @@ class PopcornRepository (
             if(result.isSuccessful){
                 result.body()?.let {
                     Resource.success(it)
-                }?: Resource.error("Response body empty")
+                }?: Resource.error(result.message().toString())
             }else{
-                Resource.error("Response failed")
+                Resource.error(result.message().toString())
             }
         }catch (e:Exception){
             Resource.error(e.message)

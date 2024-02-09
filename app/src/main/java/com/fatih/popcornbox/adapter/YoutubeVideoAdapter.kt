@@ -38,7 +38,7 @@ class YoutubeVideoAdapter (val layout:Int):BaseAdapter<İtem,FragmentTrailerRowB
         try {
             holder.itemView.setOnClickListener {
                 listener?.let {
-                    it(holder.bindingAdapterPosition,list[holder.bindingAdapterPosition])
+                    it(position,list[position])
                 }
             }
             val dateStr = list[position].snippet.publishedAt

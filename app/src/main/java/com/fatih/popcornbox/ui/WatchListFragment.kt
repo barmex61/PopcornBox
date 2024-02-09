@@ -41,8 +41,13 @@ class WatchListFragment:Fragment() {
                 }?: findNavController().navigate(WatchListFragmentDirections.actionWatchListFragmentToDetailsFragment(id,R.color.white,R.color.black2,url,search))
             }
         }
+        binding.backButton.setOnClickListener {
+            findNavController().navigateUp()
+        }
         binding.watchListRecyclerView.apply {
-            layoutManager= GridLayoutManager(requireContext(), Resources.getSystem().displayMetrics.widthPixels/200)
+            val columnWidth = resources.getDimensionPixelSize(R.dimen.grid_column_width)
+            val spanCount = maxOf(1, Resources.getSystem().displayMetrics.widthPixels / columnWidth)
+            layoutManager= GridLayoutManager(requireContext(), spanCount)
             adapter=watchListAdapter
             hasFixedSize()
         }

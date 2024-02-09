@@ -42,7 +42,7 @@ class HomeFragmentViewModel @Inject constructor(private val popcornRepo:PopcornR
                 } ))
             }
             Status.ERROR->{
-                _discoverData.value= Resource.error("Error occurred")
+                _discoverData.value= Resource.error(response.message)
             }
             else->Unit
         }

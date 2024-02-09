@@ -35,8 +35,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             android:id="@+id/movieImage"
-            android:scaleType="centerCrop"
             url="@{imageUrl}"
+            isPoster="@{false}"
             fitXY="@{false}"
             isYoutube="@{false}"
             android:contentDescription="@string/app_name" />

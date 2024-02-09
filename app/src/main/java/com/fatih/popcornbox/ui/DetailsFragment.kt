@@ -8,6 +8,8 @@ import android.content.res.Resources
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
+import android.util.TimeUtils
 import android.view.*
 import androidx.core.content.ContextCompat
 
@@ -32,12 +34,17 @@ import com.fatih.popcornbox.other.Constants.tvSearch
 import com.fatih.popcornbox.other.Status
 import com.fatih.popcornbox.ui.tabfragments.*
 import com.fatih.popcornbox.viewmodel.DetailsFragmentViewModel
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.interstitial.InterstitialAd
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 import kotlinx.coroutines.Runnable
 import java.math.RoundingMode
+import java.sql.Timestamp
 import java.util.*
 import kotlin.Exception
 
@@ -96,11 +103,11 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
             override fun onAnimationRepeat(animation: Animator) = Unit
         }
         binding.favoriteLottie.addAnimatorListener(animatorListener)
-        doInitialization(savedInstanceState)
+        doInitialization()
         return binding.root
     }
 
-    private fun doInitialization(savedInstanceState: Bundle?) {
+    private fun doInitialization() {
         viewModel = ViewModelProvider(requireActivity())[DetailsFragmentViewModel::class.java]
         setStatusBarPadding()
         arguments?.let {
@@ -268,7 +275,9 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
     }
 
     private fun setupPosterViewPager(portraitList: List<String>,landscapeList:List<String>){
-
+        landscapeList.forEach {
+            println(it)
+        }
         if (portraitList.isEmpty() && landscapeList.isEmpty()) return
         var portraits=portraitList
         var landscapes=landscapeList
@@ -284,7 +293,10 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
         landscapes=if (landscapes.size>=10) landscapes.subList(0,10) else landscapes.subList(0,landscapes.size)
         val adapterList = if(Resources.getSystem().configuration.orientation==Configuration.ORIENTATION_PORTRAIT){
             portraits
-        }else landscapes
+        }else {
+            shouldFitXY=true
+            landscapes
+        }
 
         val viewPagerAdapter=PosterImageViewPagerAdapter(shouldFitXY).apply {
             urlList=adapterList

@@ -40,6 +40,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             url="@{imageUrl}"
+            isPoster="@{false}"
             fitXY="@{false}"
             isYoutube="@{true}"
             android:id="@+id/thumbnailImage" />
@@ -116,7 +117,7 @@
             app:riv_corner_radius="15dp"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:src="@drawable/popcorn"
+            android:src="@drawable/popcorn_logo"
             app:layout_constraintStart_toStartOf="@id/goruntulenmeText"
             app:layout_constraintTop_toBottomOf="@id/goruntulenmeText"
             android:layout_marginTop="10sp"

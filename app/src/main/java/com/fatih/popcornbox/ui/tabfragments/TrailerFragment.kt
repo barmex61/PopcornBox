@@ -57,6 +57,7 @@ class TrailerFragment @Inject constructor(): Fragment(R.layout.fragment_trailer)
         if (savedInstanceState?.getBoolean("isRotated")!=true){
             viewModel.resetData()
         }
+        binding.isLoading=true
         doInitialization()
         mCurrentVideoId=savedInstanceState?.getString("video_id")?:myVideoId
         mCurrentTime=savedInstanceState?.getFloat("current_time")?:mCurrentTime
@@ -95,9 +96,11 @@ class TrailerFragment @Inject constructor(): Fragment(R.layout.fragment_trailer)
                 }.rootView)
 
                 if (mCurrentVideoId.isNotEmpty() && mCurrentTime != 0f){
+                    binding.isLoading=false
                     myYoutubePlayer!!.loadVideo(mCurrentVideoId,mCurrentTime)
                 }else {
-                    if(viewModel.itemList.value != null && viewModel.itemList.value!!.isNotEmpty()){
+                    if(!viewModel.itemList.value.isNullOrEmpty()){
+                        binding.isLoading=false
                         myYoutubePlayer!!.cueVideo(viewModel.itemList.value?.get(0)?.id?:"",0f)
                     }
                 }
@@ -128,6 +131,7 @@ class TrailerFragment @Inject constructor(): Fragment(R.layout.fragment_trailer)
             viewModel.updateList(position,item){
                 youtubeVideoAdapter?.list=it
                 myYoutubePlayer?.loadVideo(youtubeVideoAdapter!!.list[position].id,0f)
+                binding.isLoading=false
             }
         }
         binding.youtubeRecyclerView?.layoutManager = LinearLayoutManager(requireContext())

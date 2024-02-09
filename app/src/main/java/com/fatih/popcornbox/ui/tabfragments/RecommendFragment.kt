@@ -55,7 +55,9 @@ class RecommendFragment:Fragment(R.layout.fragment_recommend) {
 
     private fun doInitialization(){
         recyclerView=binding.recommendRecyclerView
-        recyclerView!!.layoutManager = GridLayoutManager(requireContext(), Resources.getSystem().displayMetrics.widthPixels/200)
+        val columnWidth = resources.getDimensionPixelSize(R.dimen.grid_column_width)
+        val spanCount = maxOf(1, Resources.getSystem().displayMetrics.widthPixels / columnWidth)
+        recyclerView!!.layoutManager= GridLayoutManager(requireContext(), spanCount)
         recyclerView!!.adapter = recommendAdapter
         onScrollListener=object: RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {

@@ -11,7 +11,8 @@ import java.util.Locale
 
 object Constants {
 
-    const val base_img_url="https://image.tmdb.org/t/p/original"
+    const val base_img_url="https://image.tmdb.org/t/p/w342"
+    const val base_original="https://image.tmdb.org/t/p/original"
     const val YOUTUBE_BASE_URL="https://youtube.googleapis.com/youtube/v3/"
     var language=Locale.getDefault().language ?: ""
     const val BASE_URL="https://api.themoviedb.org/3/"

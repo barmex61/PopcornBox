@@ -30,7 +30,6 @@
         app:riv_corner_radius="20dp"
         android:layout_width="0dp"
         app:layout_constraintWidth_percent="0.8"
-        android:scaleType="centerCrop"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

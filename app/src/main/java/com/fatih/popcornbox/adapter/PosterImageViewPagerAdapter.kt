@@ -35,9 +35,9 @@ class PosterImageViewPagerAdapter (private val shouldFitXY:Boolean) :RecyclerVie
 
     override fun onBindViewHolder(holder:PosterImageViewHolder, position: Int) {
         if (singleUrl){
-            holder.imageView.setImageUrl(urlList[position], false, isYoutube = false)
+            holder.imageView.setImageUrl(urlList[position], false, isYoutube = false,true)
         }else{
-            holder.imageView.setImageUrl(urlList[position],shouldFitXY,false)
+            holder.imageView.setImageUrl(urlList[position],shouldFitXY,false,true)
 
         }
 

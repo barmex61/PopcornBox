@@ -11,7 +11,7 @@
         <menu>
             <item android:id="@+id/like" android:title="@string/favorites" android:icon="@drawable/ic_heart"/>
             <item android:id="@+id/notifications" android:title="@string/notifications" android:icon="@drawable/ic_notifications"/>
-
+            <item android:id="@+id/abouts" android:title="@string/abouts" android:icon="@drawable/baseline_info_24"/>
         </menu>
     </item>
 

@@ -57,6 +57,7 @@
             url="@{tvShowSeason.poster_path}"
             fitXY="@{false}"
             isYoutube="@{false}"
+            isPoster="@{false}"
              />
 
         <LinearLayout
