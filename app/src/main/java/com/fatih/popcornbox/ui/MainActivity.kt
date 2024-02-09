@@ -85,13 +85,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun requestConsentForm(){
-        val debugSettings = ConsentDebugSettings.Builder(this)
-            .setDebugGeography(ConsentDebugSettings.DebugGeography.DEBUG_GEOGRAPHY_EEA)
-            .addTestDeviceHashedId("C46AD8CA8F2A481B3F42E967B88AAA09")
-            .build()
         val params = ConsentRequestParameters
             .Builder()
-            .setConsentDebugSettings(debugSettings)
             .build()
 
         consentInformation = UserMessagingPlatform.getConsentInformation(this)
