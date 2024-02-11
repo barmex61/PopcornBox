@@ -23,6 +23,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import com.fatih.popcornbox.R
@@ -73,6 +74,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private lateinit var adapter: HomeFragmentAdapter
     private var movieSortPosition=0
     private lateinit var viewModel:HomeFragmentViewModel
+    private var gridLayouManager : GridLayoutManager ?= null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         _binding=DataBindingUtil.inflate(inflater,R.layout.fragment_home,container,false)
@@ -259,7 +261,19 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         binding.moviesRecyclerView.adapter=adapter
         val columnWidth = resources.getDimensionPixelSize(R.dimen.grid_column_width)
         val spanCount = maxOf(1, Resources.getSystem().displayMetrics.widthPixels / columnWidth)
-        binding.moviesRecyclerView.layoutManager= GridLayoutManager(requireContext(), spanCount)
+        adapter.spanCount = spanCount
+        gridLayouManager = GridLayoutManager(requireContext(),spanCount).also {
+            it.spanSizeLookup = object :SpanSizeLookup(){
+                override fun getSpanSize(position: Int): Int {
+                    return if ((position + 1) % ((spanCount*10) + 1) == 0){
+                        spanCount
+                    }else{
+                        1
+                    }
+                }
+            }
+        }
+        binding.moviesRecyclerView.layoutManager= gridLayouManager
         onScrollListener=object:OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 if (!recyclerView.canScrollVertically(1) && viewModel.currentPage.value!! < totalAvailablePages) {
@@ -335,22 +349,18 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         viewModel.discoverData.observe(viewLifecycleOwner){
             when(it.status){
                 Status.LOADING->{
-                    println("loading")
                     setProgressBarVisibility(true)
                 }
                 Status.SUCCESS->{
-                    println("success ${it.data?.results?.size}")
                     setProgressBarVisibility(false)
                     adapter.list=it.data?.results?: listOf()
                     totalAvailablePages=it.data?.total_pages?:1
                 }
                 Status.ERROR->{
-                    println("error ${it.message}")
                     setProgressBarVisibility(false)
                 }
             }
         }
-        println("size "+adapter.list.size)
     }
 
     private fun setNavigation(it: MenuItem){
@@ -491,6 +501,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     override fun onDestroyView() {
+        gridLayouManager = null
         binding.moviesRecyclerView.removeOnScrollListener(onScrollListener)
         binding.moviesRecyclerView.adapter=null
         _binding=null
