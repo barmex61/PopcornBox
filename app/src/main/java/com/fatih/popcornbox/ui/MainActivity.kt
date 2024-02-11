@@ -2,6 +2,7 @@ package com.fatih.popcornbox.ui
 
 import android.os.Build
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.util.Log
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
@@ -12,8 +13,10 @@ import androidx.navigation.NavDestination
 import androidx.navigation.fragment.NavHostFragment
 import com.bumptech.glide.Glide
 import com.fatih.popcornbox.R
+import com.fatih.popcornbox.other.Constants
 import com.fatih.popcornbox.other.Constants.isFirstRun
 import com.fatih.popcornbox.other.Constants.orientation
+import com.fatih.popcornbox.other.ShowAddInterface
 import com.fatih.popcornbox.viewmodel.HomeFragmentViewModel
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.LoadAdError
@@ -32,25 +35,18 @@ import java.util.concurrent.atomic.AtomicBoolean
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-
-    private var viewModel: HomeFragmentViewModel?=null
     private val TAG : String = "MainActivity"
-    private var mInterstitialAd: InterstitialAd? = null
+    private  var mInterstitialAd: InterstitialAd ?= null
     var adRequest = AdRequest.Builder().build()
     var currentTime: Long = 0L
     private lateinit var consentInformation: ConsentInformation
+    private var navHostFragment : NavHostFragment ?= null
     private var isMobileAdsInitializeCalled = AtomicBoolean(false)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-      
-        viewModel= ViewModelProvider(this)[HomeFragmentViewModel::class.java]
-        val currentOrientation= resources.configuration.orientation
-        if(isFirstRun && currentOrientation == orientation){
-            viewModel?.getMovies( "popularity.desc","")
-            isFirstRun=false
-        }
-        orientation=currentOrientation
+        currentTime = savedInstanceState?.getLong("currentTime",0L)?:0L
+        println("time " + currentTime)
         WindowCompat.setDecorFitsSystemWindows(window.apply {
             setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
                 WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
@@ -58,17 +54,17 @@ class MainActivity : AppCompatActivity() {
                 attributes.layoutInDisplayCutoutMode=WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
             }
         }, false)
+
         setContentView(R.layout.activity_main)
 	    requestConsentForm()
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
-        val navController = navHostFragment.navController
-        navController.addOnDestinationChangedListener(object : NavController.OnDestinationChangedListener{
+        navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
+        val navController = navHostFragment?.navController
+        navController?.addOnDestinationChangedListener(object : NavController.OnDestinationChangedListener{
             override fun onDestinationChanged(controller: NavController, destination: NavDestination, arguments: Bundle?) {
-               if (Calendar.getInstance().timeInMillis - currentTime > 22000L ){
+               if ((Calendar.getInstance().timeInMillis - currentTime > 22000L) || Constants.showDialog ){
                    InterstitialAd.load(this@MainActivity,"ca-app-pub-7923951045985903/8603110213", adRequest, object : InterstitialAdLoadCallback() {
                        override fun onAdFailedToLoad(adError: LoadAdError) {
                            Log.d(TAG, adError.toString() )
-                           mInterstitialAd = null
                        }
 
                        override fun onAdLoaded(interstitialAd: InterstitialAd) {
@@ -127,10 +123,17 @@ class MainActivity : AppCompatActivity() {
         Glide.with(this).onLowMemory()
     }
 
+    override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
+        outState.putLong("currentTime",0L)
+        super.onSaveInstanceState(outState, outPersistentState)
+    }
+
 
     override fun onDestroy() {
+        navHostFragment?.onDestroy()
+        navHostFragment= null
         isFirstRun=true
-        viewModel=null
+        mInterstitialAd = null
         super.onDestroy()
     }
 

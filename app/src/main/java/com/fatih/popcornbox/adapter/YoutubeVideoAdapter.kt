@@ -2,6 +2,9 @@ package com.fatih.popcornbox.adapter
 
 import android.annotation.SuppressLint
 import android.text.format.DateUtils
+import android.view.View
+import android.widget.TextView
+import androidx.core.view.doOnDetach
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import com.fatih.popcornbox.databinding.FragmentTrailerRowBinding
@@ -20,6 +23,25 @@ class YoutubeVideoAdapter (val layout:Int):BaseAdapter<İtem,FragmentTrailerRowB
     var listener:((Int,İtem)->Unit)?=null
     fun setOnItemClickListener(listener:(Int,İtem)->Unit){
         this.listener=listener
+    }
+
+    private var runnable: Runnable?=null
+    private fun TextView.startRunnable(showMoreText: TextView){
+        runnable?.let {
+            this.removeCallbacks(it)
+        }
+        doOnDetach {
+            removeCallbacks(runnable)
+            runnable = null
+        }
+        runnable = kotlinx.coroutines.Runnable {
+            if (this.lineCount > 4) {
+                showMoreText.visibility = View.VISIBLE
+            } else {
+                showMoreText.visibility = View.GONE
+            }
+        }
+        this.post(runnable)
     }
 
     override var diffUtil: DiffUtil.ItemCallback<İtem> = object :DiffUtil.ItemCallback<İtem>(){

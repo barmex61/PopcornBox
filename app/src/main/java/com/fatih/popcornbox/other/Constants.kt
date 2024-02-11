@@ -19,6 +19,7 @@ object Constants {
     val sortList= listOf("popularity.desc","release_date.desc","vote_average.desc","first_air_date.desc")
     const val tvSearch="tv"
     const val movieSearch="movie"
+    var showDialog = true
     var stateList= mutableListOf(State.MOVIE)
     val sortArray: Array<String> = PopcornApplication.appContext.resources.getStringArray(R.array.sort_array)
     val movie_genre_list: Array<String> =  PopcornApplication.appContext.resources.getStringArray(R.array.movie_genre_list)

@@ -28,6 +28,10 @@ import com.fatih.popcornbox.ui.PopcornApplication
 import java.text.SimpleDateFormat
 import java.util.*
 
+interface ShowAddInterface{
+    fun showAdd()
+}
+
 @BindingAdapter("url","fitXY","isYoutube","isPoster")
 fun ImageView.setImageUrl(url:String?,fitXY: Boolean,isYoutube:Boolean,isPoster:Boolean){
 

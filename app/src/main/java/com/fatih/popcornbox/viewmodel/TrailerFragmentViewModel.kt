@@ -32,7 +32,6 @@ class TrailerFragmentViewModel @Inject constructor(private val popcornRepository
     var itemList=MutableLiveData<MutableList<İtem>>()
 
     fun updateList(position:Int,item:İtem,listLambda:(List<İtem>)->Unit)=viewModelScope.launch(Dispatchers.Main){
-        println(position)
         itemList.value?.removeAt(position)
         if (selectedPosition.value != null && selectedItem.value != null){
             itemList.value?.add(selectedPosition.value!!,selectedItem.value!!)

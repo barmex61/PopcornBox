@@ -28,6 +28,7 @@ import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import com.fatih.popcornbox.R
 import com.fatih.popcornbox.adapter.HomeFragmentAdapter
 import com.fatih.popcornbox.databinding.FragmentHomeBinding
+import com.fatih.popcornbox.other.Constants
 import com.fatih.popcornbox.other.Constants.checkIsItInMovieListOrNot
 import com.fatih.popcornbox.other.Constants.movieGenreMap
 import com.fatih.popcornbox.other.Constants.movieSearch
@@ -40,10 +41,12 @@ import com.fatih.popcornbox.other.Constants.tvSearch
 import com.fatih.popcornbox.other.Constants.tvShowGenreMap
 import com.fatih.popcornbox.other.Constants.tv_show_booleanArray
 import com.fatih.popcornbox.other.Constants.tv_show_genre_list
+import com.fatih.popcornbox.other.ShowAddInterface
 import com.fatih.popcornbox.other.State
 import com.fatih.popcornbox.other.Status
 import com.fatih.popcornbox.viewmodel.HomeFragmentViewModel
 import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -65,6 +68,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private var indexPosition=0
     private var searchCategory= movieSearch
     private var tvShowSortPosition=0
+    private var alertDialog : AlertDialog ?= null
     private lateinit var onScrollListener: OnScrollListener
     private lateinit var adapter: HomeFragmentAdapter
     private var movieSortPosition=0
@@ -74,11 +78,32 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         _binding=DataBindingUtil.inflate(inflater,R.layout.fragment_home,container,false)
         val adRequest = AdRequest.Builder().build()
         binding.adView.loadAd(adRequest)
+        showDialog()
         viewModel=ViewModelProvider(requireActivity())[HomeFragmentViewModel::class.java]
         genres=savedInstanceState?.getString("genres",genres)?:genres
         sortString=savedInstanceState?.getString("sort",sortString)?:sortString
+        searchCategory = savedInstanceState?.getString("searchCategory")?: movieSearch
+        if (sortString == sortList[0] && genres.isEmpty() && viewModel.currentPage.value == 1 && viewModel.searchQuery.value?.isEmpty() == true && searchCategory == movieSearch){
+            viewModel.getMovies( "popularity.desc","")
+        }
         doInitialization()
         return binding.root
+    }
+
+    private fun showDialog(){
+        if (Constants.showDialog){
+            alertDialog = AlertDialog.Builder(requireContext()).apply {
+                setMessage(resources.getString(R.string.moviedb))
+                setIcon(R.drawable.moviedb)
+                setTitle(resources.getString(R.string.abouts))
+                setOnDismissListener {
+                    alertDialog = null
+                }
+            }.create().also {
+                it.show()
+            }
+            Constants.showDialog = false
+        }
     }
 
 
@@ -88,6 +113,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         super.onSaveInstanceState(outState)
         outState.putString("genres",genres)
         outState.putString("sort",sortString)
+        outState.putString("searchCategory",searchCategory)
     }
     private fun doInitialization(){
         setStatusBarPadding()
@@ -455,14 +481,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
     }
 
-    @SuppressLint("InternalInsetResource")
-    fun getNavigationBarHeight(context: Context): Int {
-        val resources = context.resources
-        val resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android")
-        return if (resourceId > 0) {
-            resources.getDimensionPixelSize(resourceId)
-        } else 0
-    }
 
     private fun setProgressBarVisibility(isVisible:Boolean){
         if (isVisible){
@@ -476,6 +494,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         binding.moviesRecyclerView.removeOnScrollListener(onScrollListener)
         binding.moviesRecyclerView.adapter=null
         _binding=null
+        alertDialog = null
         super.onDestroyView()
     }
 

@@ -33,12 +33,11 @@
         android:layout_height="wrap_content">
 
         <com.google.android.youtube.player.YouTubeThumbnailView
-            android:layout_width="140dp"
+            android:layout_width="match_parent"
             android:layout_margin="4dp"
-            android:layout_height="140dp"
+            android:layout_height="200dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
             url="@{imageUrl}"
             isPoster="@{false}"
             fitXY="@{false}"
@@ -49,7 +48,7 @@
         <ImageView
             android:layout_width="45dp"
             android:layout_height="30dp"
-            android:background="@drawable/play_button_bg"
+            android:background="@drawable/review_bg"
             android:src="@drawable/ic_baseline_play_arrow_24"
             app:layout_constraintTop_toTopOf="@id/thumbnailImage"
             app:layout_constraintBottom_toBottomOf="@id/thumbnailImage"
@@ -88,8 +87,8 @@
             android:ems="13"
             android:id="@+id/headerText"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/thumbnailImage"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/thumbnailImage" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -99,24 +98,22 @@
             app:layout_constraintStart_toStartOf="@id/headerText"
             android:text="@{viewText}"
             android:textSize="11sp"
-            android:textColor="#716C6C"
+            android:textColor="#CFABAB"
             android:id="@+id/goruntulenmeText" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{dateText}"
-            app:layout_constraintTop_toBottomOf="@id/headerText"
-            android:layout_marginTop="2dp"
-            app:layout_constraintStart_toEndOf="@id/thumbnailImage"
-            android:layout_marginStart="50dp"
+            app:layout_constraintTop_toTopOf="@id/goruntulenmeText"
+            app:layout_constraintStart_toStartOf="@id/channellTittle"
             android:textSize="11sp"
-            android:textColor="#716C6C" />
+            android:textColor="#CFABAB" />
 
         <com.makeramen.roundedimageview.RoundedImageView
             app:riv_corner_radius="15dp"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:src="@drawable/popcorn_logo"
             app:layout_constraintStart_toStartOf="@id/goruntulenmeText"
             app:layout_constraintTop_toBottomOf="@id/goruntulenmeText"
@@ -129,7 +126,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{channelTittle}"
-            android:textColor="#716C6C"
+            android:textColor="#CFABAB"
+            android:id="@+id/channellTittle"
             app:layout_constraintStart_toEndOf="@id/channelImage"
             app:layout_constraintTop_toTopOf="@id/channelImage"
             android:layout_marginStart="7dp"
@@ -139,14 +137,19 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:maxLines="2"
             app:layout_constraintTop_toBottomOf="@id/channelImage"
             app:layout_constraintStart_toStartOf="@id/channelImage"
             app:layout_constraintEnd_toEndOf="parent"
-            android:ellipsize="end"
+            app:layout_constraintBottom_toBottomOf="parent"
             android:text="@{description}"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:textSize="13sp"
             android:ems="13"
-            android:textColor="#716C6C"/>
+            android:id="@+id/descriptionText"
+            android:textColor="#CFABAB"/>
+
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

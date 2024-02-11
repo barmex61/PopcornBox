@@ -12,6 +12,7 @@ import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.lottie.LottieAnimationView
 import com.fatih.popcornbox.R
 import com.fatih.popcornbox.adapter.RecommendFragmentAdapter
 import com.fatih.popcornbox.databinding.FragmentRecommendBinding
@@ -33,9 +34,11 @@ class RecommendFragment:Fragment(R.layout.fragment_recommend) {
     private var selectedId=1
     private lateinit var recommendAdapter: RecommendFragmentAdapter
     private lateinit var viewModel: RecommendationFragmentViewModel
+    private var lottieView : LottieAnimationView ?= null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         _binding= FragmentRecommendBinding.inflate(inflater,container,false)
+        lottieView = binding.recommendationLottie
         viewModel= ViewModelProvider(requireActivity())[RecommendationFragmentViewModel::class.java]
         recommendAdapter= RecommendFragmentAdapter(R.layout.fragment_recommend_row)
         selectedId=arguments?.getInt("id")?:selectedId
@@ -104,8 +107,8 @@ class RecommendFragment:Fragment(R.layout.fragment_recommend) {
     }
 
     private fun showLottie(){
-        binding.recommendationLottie.visibility=View.VISIBLE
-        binding.recommendationLottie.playAnimation()
+        lottieView?.visibility=View.VISIBLE
+        lottieView?.playAnimation()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -114,6 +117,7 @@ class RecommendFragment:Fragment(R.layout.fragment_recommend) {
     }
 
     override fun onDestroyView() {
+        lottieView = null
         recyclerView?.adapter = null
         recyclerView=null
         _binding=null

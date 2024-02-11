@@ -24,6 +24,7 @@ class HomeFragmentViewModel @Inject constructor(private val popcornRepo:PopcornR
     var searchQuery=MutableLiveData("")
 
 
+
     fun getMovies(sort_by:String,genres:String)=viewModelScope.launch{
         if(stateList.last()!=State.MOVIE ){
             currentPage.value=1

@@ -59,12 +59,6 @@ interface PopcornApi {
        @Path("id") id: Int,
        @Query("api_key") api_key: String = API_KEY):Response<CreditsResponse>
 
-    @GET("{name}/{id}/watch/providers")
-    suspend fun getWatchProviders(
-        @Path("name") name:String,
-        @Path("id") id:Int,
-        @Query("api_key") api_key: String =  API_KEY):Response<String>
-
 
     @GET("discover/movie")
     suspend fun getMovies(

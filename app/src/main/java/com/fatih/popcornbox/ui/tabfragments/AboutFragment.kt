@@ -13,6 +13,7 @@ import com.fatih.popcornbox.R
 import com.fatih.popcornbox.databinding.FragmentAboutBinding
 import com.fatih.popcornbox.entities.remote.detailresponse.DetailResponse
 import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
 
 
 class AboutFragment:Fragment() {

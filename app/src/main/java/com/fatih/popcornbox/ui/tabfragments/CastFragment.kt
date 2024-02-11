@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -18,11 +19,10 @@ import com.fatih.popcornbox.other.Status
 import com.fatih.popcornbox.ui.DetailsFragment
 import com.fatih.popcornbox.viewmodel.DetailsFragmentViewModel
 import com.google.android.gms.ads.AdRequest
-import dagger.hilt.android.AndroidEntryPoint
+import com.google.android.gms.ads.AdView
 import kotlinx.coroutines.*
 
 
-@AndroidEntryPoint
 class CastFragment : Fragment(R.layout.fragment_cast) ,CastAdapterListener{
 
     private var _binding:FragmentCastBinding?=null
@@ -105,5 +105,7 @@ class CastFragment : Fragment(R.layout.fragment_cast) ,CastAdapterListener{
         _binding=null
         super.onDestroyView()
     }
+
+
 
 }

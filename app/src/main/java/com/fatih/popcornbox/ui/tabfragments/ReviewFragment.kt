@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.lottie.LottieAnimationView
 import com.fatih.popcornbox.R
 import com.fatih.popcornbox.adapter.ReviewAdapter
 import com.fatih.popcornbox.databinding.FragmentReviewBinding
@@ -21,6 +22,7 @@ import com.fatih.popcornbox.other.Constants.tvSearch
 import com.fatih.popcornbox.other.Status
 import com.fatih.popcornbox.viewmodel.DetailsFragmentViewModel
 import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
 
 class ReviewFragment:Fragment(R.layout.fragment_review) {
 
@@ -34,6 +36,7 @@ class ReviewFragment:Fragment(R.layout.fragment_review) {
     private var position=0
     private var resultList= listOf<ReviewResult>()
     private var vibrantColor : Int=0
+    private var lottieView : LottieAnimationView ?= null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         _binding=DataBindingUtil.inflate(inflater,R.layout.fragment_review,container,false)
@@ -47,6 +50,7 @@ class ReviewFragment:Fragment(R.layout.fragment_review) {
         }else{
             viewModel?.getReviews(tvSearch,selectedId,1)
         }
+        lottieView = binding.lottieView
         adapter= ReviewAdapter(R.layout.review_recycler_row)
         recyclerView=binding.reciewRecyclerView
         recyclerView!!.layoutManager=LinearLayoutManager(requireContext())
@@ -105,7 +109,7 @@ class ReviewFragment:Fragment(R.layout.fragment_review) {
     private fun showLottie(){
         binding.sortText.visibility=View.GONE
         binding.reviewCountText.visibility=View.GONE
-        binding.lottieView.apply {
+        lottieView?.apply {
             visibility=View.VISIBLE
             playAnimation()
         }
@@ -113,6 +117,7 @@ class ReviewFragment:Fragment(R.layout.fragment_review) {
 
 
     override fun onDestroyView() {
+        lottieView = null
         resultList= listOf()
         adapter=null
         recyclerView=null

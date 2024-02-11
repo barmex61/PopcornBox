@@ -35,6 +35,7 @@ import com.fatih.popcornbox.other.Status
 import com.fatih.popcornbox.ui.tabfragments.*
 import com.fatih.popcornbox.viewmodel.DetailsFragmentViewModel
 import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
@@ -128,7 +129,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
         }
 
         _myFragmentManager=childFragmentManager
-        fragmentViewPagerAdapter=DetailsFragmentViewPagerAdapter(listOf(),myFragmentManager,viewLifecycleOwner.lifecycle)
+        fragmentViewPagerAdapter=DetailsFragmentViewPagerAdapter(mutableListOf(),myFragmentManager,viewLifecycleOwner.lifecycle)
         fragmentViewPager=binding.detailsViewPager.apply {
             this.offscreenPageLimit=1
         }
@@ -453,8 +454,12 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
         job2?.cancel()
         binding.favoriteLottie.removeAnimatorListener(animatorListener)
         isSingleUrl=false
+        fragmentViewPagerAdapter?.fragmentList?.forEach {
+            it.onDestroyView()
+        }
+        fragmentViewPagerAdapter?.fragmentList = mutableListOf()
         fragmentViewPagerAdapter = null
-        fragmentViewPager?.adapter=fragmentViewPagerAdapter
+        fragmentViewPager?.adapter = null
         viewPagerHandler?.removeCallbacks(runnable!!)
         viewPagerHandler=null
         runnable=null

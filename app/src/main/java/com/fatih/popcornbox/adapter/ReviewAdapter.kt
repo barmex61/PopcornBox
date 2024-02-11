@@ -3,8 +3,10 @@ package com.fatih.popcornbox.adapter
 
 import android.view.View
 import android.widget.TextView
+import androidx.core.view.doOnDetach
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.RecyclerView
 import com.fatih.popcornbox.R
 import com.fatih.popcornbox.databinding.ReviewRecyclerRowBinding
 import com.fatih.popcornbox.entities.remote.reviewresponse.ReviewResult
@@ -20,6 +22,10 @@ class ReviewAdapter(
     private fun TextView.startRunnable( showMoreText:TextView){
         runnable?.let {
             this.removeCallbacks(it)
+        }
+        doOnDetach {
+            removeCallbacks(runnable)
+            runnable = null
         }
         runnable = Runnable {
             if (this.lineCount>4){
@@ -60,5 +66,4 @@ class ReviewAdapter(
             }
         }
     }
-
 }
