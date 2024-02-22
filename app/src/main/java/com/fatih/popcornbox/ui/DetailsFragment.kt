@@ -276,9 +276,6 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
     }
 
     private fun setupPosterViewPager(portraitList: List<String>,landscapeList:List<String>){
-        landscapeList.forEach {
-            println(it)
-        }
         if (portraitList.isEmpty() && landscapeList.isEmpty()) return
         var portraits=portraitList
         var landscapes=landscapeList

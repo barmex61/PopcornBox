@@ -8,6 +8,7 @@ import android.view.View
 import androidx.navigation.fragment.findNavController
 import com.airbnb.lottie.LottieAnimationView
 import com.fatih.popcornbox.R
+import com.fatih.popcornbox.other.Constants.isFirstRun
 
 @SuppressLint("CustomSplashScreen")
 class CustomSplashScreenFragment : Fragment(R.layout.fragment_custom_splash_screen){

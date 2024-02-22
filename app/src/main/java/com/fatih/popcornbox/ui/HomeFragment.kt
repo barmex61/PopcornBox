@@ -3,6 +3,7 @@ package com.fatih.popcornbox.ui
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
+import android.content.res.Configuration
 import android.content.res.Resources
 import android.os.Bundle
 import android.text.Editable
@@ -76,6 +77,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private lateinit var viewModel:HomeFragmentViewModel
     private var gridLayouManager : GridLayoutManager ?= null
 
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         _binding=DataBindingUtil.inflate(inflater,R.layout.fragment_home,container,false)
         val adRequest = AdRequest.Builder().build()
@@ -119,7 +121,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
     private fun doInitialization(){
         setStatusBarPadding()
-        adapter=HomeFragmentAdapter(R.layout.fragment_main_rv_row)
+        adapter=HomeFragmentAdapter()
         searchCategory=if(checkIsItInMovieListOrNot()) movieSearch else tvSearch
         if(viewModel.searchQuery.value!!.isNotEmpty()){
             searchText= viewModel.searchQuery.value!!
@@ -293,6 +295,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
         binding.moviesRecyclerView.addOnScrollListener(onScrollListener)
     }
+
 
 
     private fun movieButtonClicked(){

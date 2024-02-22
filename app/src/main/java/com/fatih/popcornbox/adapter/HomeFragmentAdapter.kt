@@ -13,7 +13,7 @@ import com.fatih.popcornbox.entities.remote.discoverresponse.DiscoverResult
 import com.fatih.popcornbox.other.Constants.getVibrantColor
 import com.google.android.gms.ads.AdRequest
 
-class HomeFragmentAdapter(private val layout:Int) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class HomeFragmentAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val VIEW_TYPE_NORMAL = 0
     private val VIEW_TYPE_ADVIEW = 1
