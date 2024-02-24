@@ -100,10 +100,9 @@ class MainActivity : AppCompatActivity() , MaxAdListener {
                     })
                 mInterstitialAd?.show(this@MainActivity) */
                 if (interstitialAd.isReady){
-                    println("yesss")
                     interstitialAd.showAd()
+                    currentTime = Calendar.getInstance().timeInMillis
                 }
-                currentTime = Calendar.getInstance().timeInMillis
             }
         }
     }
@@ -179,7 +178,9 @@ class MainActivity : AppCompatActivity() , MaxAdListener {
         Handler().postDelayed( { interstitialAd.loadAd() }, delayMillis )
     }
 
-    override fun onAdDisplayed(maxAd: MaxAd) {}
+    override fun onAdDisplayed(maxAd: MaxAd) {
+        println("displayed")
+    }
 
     override fun onAdClicked(maxAd: MaxAd) {}
 

@@ -11,12 +11,12 @@
    >
     <com.applovin.mediation.ads.MaxAdView
         xmlns:maxads="http://schemas.applovin.com/android/1.0"
-        maxads:adUnitId="YOUR_AD_UNIT_ID"
+        maxads:adUnitId="6dd58cd6a7754b45"
         app1:layout_constraintTop_toTopOf="parent"
         app1:layout_constraintBottom_toBottomOf="parent"
         app1:layout_constraintStart_toStartOf="parent"
         app1:layout_constraintEnd_toEndOf="parent"
-        android:background="@color/black"
+        android:background="@android:color/transparent"
         android:id="@+id/adView"
         android:layout_width="match_parent"
         android:layout_height="60dp" />

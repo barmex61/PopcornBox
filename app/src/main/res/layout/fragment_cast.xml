@@ -33,7 +33,7 @@
 
     <com.applovin.mediation.ads.MaxAdView
         xmlns:maxads="http://schemas.applovin.com/android/1.0"
-        maxads:adUnitId="YOUR_AD_UNIT_ID"
+        maxads:adUnitId="d3e6c55692ccb34f"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -29,7 +29,7 @@ class HomeFragmentAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     class AddViewHolder(val binding:AddViewRowBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun getItemViewType(position: Int): Int {
-        return VIEW_TYPE_NORMAL
+        //return VIEW_TYPE_NORMAL
         return if ((position + 1) % ((spanCount*10) + 1) == 0) VIEW_TYPE_ADVIEW else VIEW_TYPE_NORMAL
     }
 

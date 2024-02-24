@@ -80,8 +80,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         _binding=DataBindingUtil.inflate(inflater,R.layout.fragment_home,container,false)
-        /* val adRequest = AdRequest.Builder().build()
-        binding.adView.loadAd(adRequest) */
+        /* val adRequest = AdRequest.Builder().build()*/
+        binding.adView.loadAd()
         showDialog()
         viewModel=ViewModelProvider(requireActivity())[HomeFragmentViewModel::class.java]
         genres=savedInstanceState?.getString("genres",genres)?:genres

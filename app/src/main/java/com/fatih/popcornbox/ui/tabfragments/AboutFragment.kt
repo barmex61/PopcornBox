@@ -27,6 +27,7 @@ class AboutFragment:Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding= DataBindingUtil.inflate(inflater,R.layout.fragment_about,container,false)
         /*val adRequest = AdRequest.Builder().build()*/
+        binding.adView.startAutoRefresh()
         binding.adView.loadAd()
         detailResponse=arguments?.getSerializable("detailResponse")?.let {
             it as DetailResponse
