@@ -75,13 +75,13 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private lateinit var adapter: HomeFragmentAdapter
     private var movieSortPosition=0
     private lateinit var viewModel:HomeFragmentViewModel
-    private var gridLayouManager : GridLayoutManager ?= null
+    private var gridLayoutManager : GridLayoutManager ?= null
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         _binding=DataBindingUtil.inflate(inflater,R.layout.fragment_home,container,false)
-        val adRequest = AdRequest.Builder().build()
-        binding.adView.loadAd(adRequest)
+        /* val adRequest = AdRequest.Builder().build()
+        binding.adView.loadAd(adRequest) */
         showDialog()
         viewModel=ViewModelProvider(requireActivity())[HomeFragmentViewModel::class.java]
         genres=savedInstanceState?.getString("genres",genres)?:genres
@@ -264,7 +264,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         val columnWidth = resources.getDimensionPixelSize(R.dimen.grid_column_width)
         val spanCount = maxOf(1, Resources.getSystem().displayMetrics.widthPixels / columnWidth)
         adapter.spanCount = spanCount
-        gridLayouManager = GridLayoutManager(requireContext(),spanCount).also {
+        gridLayoutManager = GridLayoutManager(requireContext(),spanCount) .also {
             it.spanSizeLookup = object :SpanSizeLookup(){
                 override fun getSpanSize(position: Int): Int {
                     return if ((position + 1) % ((spanCount*10) + 1) == 0){
@@ -275,7 +275,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 }
             }
         }
-        binding.moviesRecyclerView.layoutManager= gridLayouManager
+        binding.moviesRecyclerView.layoutManager= gridLayoutManager
         onScrollListener=object:OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 if (!recyclerView.canScrollVertically(1) && viewModel.currentPage.value!! < totalAvailablePages) {
@@ -504,7 +504,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     override fun onDestroyView() {
-        gridLayouManager = null
+        gridLayoutManager = null
         binding.moviesRecyclerView.removeOnScrollListener(onScrollListener)
         binding.moviesRecyclerView.adapter=null
         _binding=null

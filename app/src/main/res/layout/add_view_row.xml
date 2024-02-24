@@ -1,29 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    app:ignore="NamespaceTypo"
+<layout app:ignore="NamespaceTypo"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/tools"
+    xmlns:app1="http://schemas.android.com/apk/res-auto">
 
 <androidx.constraintlayout.widget.ConstraintLayout
 
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
    >
-
-    <com.google.android.gms.ads.AdView
-        xmlns:ads="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/adViewHome"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="15dp"
-        ads:layout_constraintTop_toTopOf="parent"
+    <com.applovin.mediation.ads.MaxAdView
+        xmlns:maxads="http://schemas.applovin.com/android/1.0"
+        maxads:adUnitId="YOUR_AD_UNIT_ID"
+        app1:layout_constraintTop_toTopOf="parent"
+        app1:layout_constraintBottom_toBottomOf="parent"
+        app1:layout_constraintStart_toStartOf="parent"
+        app1:layout_constraintEnd_toEndOf="parent"
+        android:background="@color/black"
+        android:id="@+id/adView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        ads:adSize="BANNER"
-        ads:adUnitId="ca-app-pub-7923951045985903/4972547466">
-    </com.google.android.gms.ads.AdView>
+        android:layout_height="60dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
