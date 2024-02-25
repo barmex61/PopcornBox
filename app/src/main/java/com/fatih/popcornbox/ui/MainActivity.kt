@@ -46,8 +46,6 @@ class MainActivity : AppCompatActivity() , MaxAdListener {
     private lateinit var consentInformation: ConsentInformation
     private var navHostFragment : NavHostFragment ?= null
     private var isMobileAdsInitializeCalled = AtomicBoolean(false)
-    private lateinit var interstitialAd: MaxInterstitialAd
-    private var retryAttempt = 0.0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
