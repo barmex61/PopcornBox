@@ -81,8 +81,8 @@ class HomeFragmentAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             }
         }else{
             holder as AddViewHolder
-            // val adRequest: AdRequest = AdRequest.Builder().build()
-            holder.binding.adView.loadAd()
+            val adRequest: AdRequest = AdRequest.Builder().build()
+            holder.binding.adView.loadAd(adRequest)
         }
 
     }

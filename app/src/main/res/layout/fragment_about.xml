@@ -428,17 +428,20 @@
                     android:visibility="invisible"
                     />
 
-                <com.applovin.mediation.ads.MaxAdView
-                    xmlns:maxads="http://schemas.applovin.com/android/1.0"
-                    maxads:adUnitId="ab50279c8d928d38"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:background="@color/black"
-                    android:layout_width="match_parent"
+                <com.google.android.gms.ads.AdView
+                    xmlns:ads="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/adView"
-                    android:layout_margin="48dp"
-                    android:layout_height="60dp" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_alignParentBottom="true"
+                    ads:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginBottom="48dp"
+                    ads:layout_constraintStart_toStartOf="parent"
+                    ads:layout_constraintEnd_toEndOf="parent"
+                    ads:adSize="BANNER"
+                    ads:adUnitId="ca-app-pub-7923951045985903/7726455892">
+                </com.google.android.gms.ads.AdView>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

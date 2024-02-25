@@ -39,8 +39,8 @@ class CastFragment : Fragment(R.layout.fragment_cast) ,CastAdapterListener{
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         _binding= FragmentCastBinding.inflate(inflater,container,false)
-        /*val adRequest = AdRequest.Builder().build()*/
-        binding.adView.loadAd()
+        val adRequest = AdRequest.Builder().build()
+        binding.adView.loadAd(adRequest)
         viewModel=ViewModelProvider(requireActivity())[DetailsFragmentViewModel::class.java]
         doInitialization()
         return binding.root

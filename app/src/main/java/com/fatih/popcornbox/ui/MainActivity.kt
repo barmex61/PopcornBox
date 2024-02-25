@@ -12,11 +12,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.fragment.NavHostFragment
-import com.applovin.mediation.MaxAd
-import com.applovin.mediation.MaxAdListener
-import com.applovin.mediation.MaxError
-import com.applovin.mediation.ads.MaxInterstitialAd
-import com.applovin.sdk.AppLovinSdk
+import com.applovin.sdk.AppLovinPrivacySettings
+
 import com.bumptech.glide.Glide
 import com.fatih.popcornbox.R
 import com.fatih.popcornbox.other.Constants.isFirstRun
@@ -36,7 +33,7 @@ import java.util.concurrent.atomic.AtomicBoolean
 
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() , MaxAdListener {
+class MainActivity : AppCompatActivity()  {
 
     private val TAG : String = "MainActivity"
     private  var mInterstitialAd: InterstitialAd ?= null
@@ -60,7 +57,6 @@ class MainActivity : AppCompatActivity() , MaxAdListener {
         }, false)
 
         setContentView(R.layout.activity_main)
-        initializeAppLovinSdk()
 	    requestConsentForm()
 
         navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
@@ -73,10 +69,9 @@ class MainActivity : AppCompatActivity() , MaxAdListener {
     private fun loadGoogleAd(navController:NavController){
         navController.addOnDestinationChangedListener { controller, destination, arguments ->
             if (destination.id == R.id.mainFragment) isFirstRun = false
-            if ((Calendar.getInstance().timeInMillis - currentTime > 60000L) && !isFirstRun) {
-                interstitialAd.loadAd()
-                println("calendar")
-                /* InterstitialAd.load(
+            if ((Calendar.getInstance().timeInMillis - currentTime > 10000L) && !isFirstRun) {
+                adRequest = AdRequest.Builder().build()
+                InterstitialAd.load(
                     this@MainActivity,
                     "ca-app-pub-7923951045985903/8603110213",
                     adRequest,
@@ -95,23 +90,19 @@ class MainActivity : AppCompatActivity() , MaxAdListener {
                             } */
 
                         }
-                    })
-                mInterstitialAd?.show(this@MainActivity) */
-                if (interstitialAd.isReady){
-                    interstitialAd.showAd()
-                    currentTime = Calendar.getInstance().timeInMillis
-                }
+                    }
+                )
+                println("showad")
+                mInterstitialAd?.show(this@MainActivity)
+                currentTime = Calendar.getInstance().timeInMillis
+
             }
         }
     }
 
-    private fun loadApplovinAd(){
-        interstitialAd = MaxInterstitialAd( "41ea2e3178e602ee", this )
-        interstitialAd.setListener(this)
-        interstitialAd.loadAd()
-    }
 
     private fun requestConsentForm(){
+        AppLovinPrivacySettings.setDoNotSell(true, this)
         val params = ConsentRequestParameters
             .Builder()
             .build()
@@ -137,56 +128,16 @@ class MainActivity : AppCompatActivity() , MaxAdListener {
         }
     }
 
-    private fun initializeAppLovinSdk(){
-        AppLovinSdk.getInstance( this ).mediationProvider = "max"
-        AppLovinSdk.getInstance( this ).initializeSdk { configuration ->
-            println("sdk initialized")
-            loadApplovinAd()
-            // AppLovin SDK is initialized, start loading ads
-        }
-    }
+
 
     private fun initializeMobileAdsSdk() {
         if (isMobileAdsInitializeCalled.getAndSet(true)) {
             return
         }
+        println("initialize")
         MobileAds.initialize(this)
     }
 
-    override fun onAdLoaded(maxAd: MaxAd)
-    {
-        // Interstitial ad is ready to be shown. interstitialAd.isReady() will now return 'true'
-
-        // Reset retry attempt
-        println("onadloaded")
-        retryAttempt = 0.0
-    }
-
-    override fun onAdDisplayFailed(p0: MaxAd, p1: MaxError) {
-        interstitialAd.loadAd()
-    }
-
-    override fun onAdLoadFailed(p0: String, p1: MaxError) {
-        // Interstitial ad failed to load
-        // AppLovin recommends that you retry with exponentially higher delays up to a maximum delay (in this case 64 seconds)
-        println("onloadfailed $p0")
-        retryAttempt++
-        val delayMillis = TimeUnit.SECONDS.toMillis( Math.pow( 2.0, Math.min( 6.0, retryAttempt ) ).toLong() )
-
-        Handler().postDelayed( { interstitialAd.loadAd() }, delayMillis )
-    }
-
-    override fun onAdDisplayed(maxAd: MaxAd) {
-        println("displayed")
-    }
-
-    override fun onAdClicked(maxAd: MaxAd) {}
-
-    override fun onAdHidden(maxAd: MaxAd)
-    {
-        // Interstitial ad is hidden. Pre-load the next ad
-        interstitialAd.loadAd()
-    }
 
     override fun onTrimMemory(level: Int) {
         super.onTrimMemory(level)
