@@ -12,7 +12,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.fragment.NavHostFragment
-import com.applovin.sdk.AppLovinPrivacySettings
 
 import com.bumptech.glide.Glide
 import com.fatih.popcornbox.R
@@ -20,6 +19,7 @@ import com.fatih.popcornbox.other.Constants.isFirstRun
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.RequestConfiguration
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.google.android.ump.ConsentDebugSettings
@@ -69,7 +69,7 @@ class MainActivity : AppCompatActivity()  {
     private fun loadGoogleAd(navController:NavController){
         navController.addOnDestinationChangedListener { controller, destination, arguments ->
             if (destination.id == R.id.mainFragment) isFirstRun = false
-            if ((Calendar.getInstance().timeInMillis - currentTime > 10000L) && !isFirstRun) {
+            if ((Calendar.getInstance().timeInMillis - currentTime > 30000L) && !isFirstRun) {
                 adRequest = AdRequest.Builder().build()
                 InterstitialAd.load(
                     this@MainActivity,
@@ -102,9 +102,13 @@ class MainActivity : AppCompatActivity()  {
 
 
     private fun requestConsentForm(){
-        AppLovinPrivacySettings.setDoNotSell(true, this)
+        val debugSettings = ConsentDebugSettings.Builder(this)
+            .setDebugGeography(ConsentDebugSettings.DebugGeography.DEBUG_GEOGRAPHY_EEA)
+            .addTestDeviceHashedId("C46AD8CA8F2A481B3F42E967B88AAA09")
+            .build()
         val params = ConsentRequestParameters
             .Builder()
+            .setConsentDebugSettings(debugSettings)
             .build()
 
         consentInformation = UserMessagingPlatform.getConsentInformation(this)
@@ -135,7 +139,18 @@ class MainActivity : AppCompatActivity()  {
             return
         }
         println("initialize")
+        val requestConfiguration = RequestConfiguration.Builder()
+            .setTestDeviceIds(listOf("C46AD8CA8F2A481B3F42E967B88AAA09"))
+            .build()
+
+        MobileAds.setRequestConfiguration(requestConfiguration)
+        MobileAds.openAdInspector(this){
+            println(it)
+        }
         MobileAds.initialize(this)
+        MobileAds.openAdInspector(this){
+            println(it)
+        }
     }
 
 

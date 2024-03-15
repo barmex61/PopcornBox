@@ -21,7 +21,6 @@
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-7923951045985903~9414995988"/>
 
-
         <activity
             android:name=".ui.MainActivity"
             android:exported="true">
