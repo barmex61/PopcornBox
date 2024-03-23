@@ -13,7 +13,7 @@ import com.fatih.popcornbox.entities.remote.discoverresponse.DiscoverResult
 import com.fatih.popcornbox.other.Constants.getVibrantColor
 import com.google.android.gms.ads.AdRequest
 
-class HomeFragmentAdapter(private val layout:Int) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class HomeFragmentAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val VIEW_TYPE_NORMAL = 0
     private val VIEW_TYPE_ADVIEW = 1
@@ -29,6 +29,7 @@ class HomeFragmentAdapter(private val layout:Int) : RecyclerView.Adapter<Recycle
     class AddViewHolder(val binding:AddViewRowBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun getItemViewType(position: Int): Int {
+        //return VIEW_TYPE_NORMAL
         return if ((position + 1) % ((spanCount*10) + 1) == 0) VIEW_TYPE_ADVIEW else VIEW_TYPE_NORMAL
     }
 
@@ -81,7 +82,7 @@ class HomeFragmentAdapter(private val layout:Int) : RecyclerView.Adapter<Recycle
         }else{
             holder as AddViewHolder
             val adRequest: AdRequest = AdRequest.Builder().build()
-            holder.binding.adViewHome.loadAd(adRequest)
+            holder.binding.adView.loadAd(adRequest)
         }
 
     }

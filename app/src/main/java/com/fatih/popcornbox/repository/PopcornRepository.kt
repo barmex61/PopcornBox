@@ -44,7 +44,6 @@ class PopcornRepository (
                     Resource.success(it)
                 }?: Resource.error("Response body empty")
             }else{
-                println(result.message()+result.errorBody().toString())
                 Resource.error("Response failed")
             }
         }catch (e:Exception){
@@ -124,7 +123,6 @@ class PopcornRepository (
 
     override suspend fun getSelectedRoomEntity(idInput: Int): Pair<Boolean,Boolean>?{
         val response=roomDao.getSelectedRoomEntity(idInput)
-        println(response)
         return response?.let {
             Pair(response.field_id.toInt()==idInput,response.favorite)
         }

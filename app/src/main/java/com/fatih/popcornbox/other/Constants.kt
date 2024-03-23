@@ -31,10 +31,7 @@ object Constants {
     var orientation= PopcornApplication.appContext.resources.configuration.orientation
     var isFirstRun=true
     fun checkIsItInMovieListOrNot():Boolean{
-        if(stateList.last()==State.MOVIE || ( stateList.last()==State.SEARCH && stateList[stateList.size-2]==State.MOVIE)){
-            return true
-        }
-        return false
+        return stateList.last()==State.MOVIE || ( stateList.last()==State.SEARCH && stateList[stateList.size-2]==State.MOVIE)
     }
 
     fun getVibrantColor(imageView:ImageView?):Pair<Int,Int>?{
