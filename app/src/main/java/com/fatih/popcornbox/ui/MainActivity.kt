@@ -39,7 +39,6 @@ class MainActivity : AppCompatActivity()  {
     private  var mInterstitialAd: InterstitialAd ?= null
     var adRequest = AdRequest.Builder().build()
     var currentTime: Long = 0L
-    var timeDiff = 0L
     private lateinit var consentInformation: ConsentInformation
     private var navHostFragment : NavHostFragment ?= null
     private var isMobileAdsInitializeCalled = AtomicBoolean(false)
@@ -92,7 +91,6 @@ class MainActivity : AppCompatActivity()  {
                         }
                     }
                 )
-                println("showad")
                 mInterstitialAd?.show(this@MainActivity)
                 currentTime = Calendar.getInstance().timeInMillis
 
@@ -102,13 +100,8 @@ class MainActivity : AppCompatActivity()  {
 
 
     private fun requestConsentForm(){
-        val debugSettings = ConsentDebugSettings.Builder(this)
-            .setDebugGeography(ConsentDebugSettings.DebugGeography.DEBUG_GEOGRAPHY_EEA)
-            .addTestDeviceHashedId("C46AD8CA8F2A481B3F42E967B88AAA09")
-            .build()
         val params = ConsentRequestParameters
             .Builder()
-            .setConsentDebugSettings(debugSettings)
             .build()
 
         consentInformation = UserMessagingPlatform.getConsentInformation(this)
@@ -138,19 +131,7 @@ class MainActivity : AppCompatActivity()  {
         if (isMobileAdsInitializeCalled.getAndSet(true)) {
             return
         }
-        println("initialize")
-        val requestConfiguration = RequestConfiguration.Builder()
-            .setTestDeviceIds(listOf("C46AD8CA8F2A481B3F42E967B88AAA09"))
-            .build()
-
-        MobileAds.setRequestConfiguration(requestConfiguration)
-        MobileAds.openAdInspector(this){
-            println(it)
-        }
         MobileAds.initialize(this)
-        MobileAds.openAdInspector(this){
-            println(it)
-        }
     }
 
 
