@@ -72,10 +72,10 @@ class HomeFragmentAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 firstAirDate=selectedPosition.first_air_date
             }
             holder.itemView.setOnClickListener {
-                val pair= getVibrantColor(holder.binding.movieImage)
                 if(position<list.size){
+                    val pair= getVibrantColor(holder.binding.movieImage)
                     list[position].id?.let { id->
-                        myItemClickLambda?.invoke(list[position].poster_path,id,pair,null)
+                        myItemClickLambda?.invoke(list[position].poster_path?:"",id,pair,null)
                     }
                 }
             }

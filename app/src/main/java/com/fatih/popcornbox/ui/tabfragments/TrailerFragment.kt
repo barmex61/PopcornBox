@@ -132,6 +132,7 @@ class TrailerFragment @Inject constructor(): Fragment(R.layout.fragment_trailer)
                 youtubeVideoAdapter?.list=it
                 myYoutubePlayer?.loadVideo(youtubeVideoAdapter!!.list[position].id,0f)
                 binding.isLoading=false
+                binding.youtubeRecyclerView!!.smoothScrollToPosition(0)
             }
         }
         binding.youtubeRecyclerView?.layoutManager = LinearLayoutManager(requireContext())

@@ -144,7 +144,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                         pair.first,
                         pair.second,
                         url,
-                        null
+                        if (checkIsItInMovieListOrNot()) movieSearch else tvSearch
+
                     )
                 )
             }?: findNavController().navigate(
@@ -153,7 +154,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                     R.color.white,
                     R.color.black2,
                     url,
-                    null
+                    if (checkIsItInMovieListOrNot()) movieSearch else tvSearch
                 )
             )
         }
