@@ -58,21 +58,25 @@ class YoutubeVideoAdapter (val layout:Int):BaseAdapter<İtem,FragmentTrailerRowB
 
     override fun onBindViewHolder(holder: MyViewHolder<FragmentTrailerRowBinding>, position: Int) {
         try {
-            holder.itemView.setOnClickListener {
-                listener?.let {
-                    it(position,list[position])
+                holder.itemView.setOnClickListener {
+                    println("position $position")
+                    println("listsize ${list.size}")
+                    if(position < list.size){
+                    listener?.let {
+                        it(position,list[position]) }
+                    }
                 }
-            }
-            val dateStr = list[position].snippet.publishedAt
-            val date= inputFormat.parse(dateStr)
-            val niceDateStr = DateUtils.getRelativeTimeSpanString(date?.time?:0L, Calendar.getInstance().timeInMillis, DateUtils.DAY_IN_MILLIS)
-            holder.binding.channelTittle=list[position].snippet.channelTitle
-            holder.binding.description=list[position].snippet.description
-            holder.binding.imageUrl=list[position].snippet.thumbnails.maxres.url
-            holder.binding.viewText=coolNumberFormat(list[position].statistics.viewCount.toLong())
-            holder.binding.titleText=list[position].snippet.title
-            holder.binding.dateText=niceDateStr.toString()
-            holder.binding.runTime=formatDuration(list[position].contentDetails.duration)
+                val dateStr = list[position].snippet.publishedAt
+                val date= inputFormat.parse(dateStr)
+                val niceDateStr = DateUtils.getRelativeTimeSpanString(date?.time?:0L, Calendar.getInstance().timeInMillis, DateUtils.DAY_IN_MILLIS)
+                holder.binding.channelTittle=list[position].snippet.channelTitle
+                holder.binding.description=list[position].snippet.description
+                holder.binding.imageUrl=list[position].snippet.thumbnails.maxres.url
+                holder.binding.viewText=coolNumberFormat(list[position].statistics.viewCount.toLong())
+                holder.binding.titleText=list[position].snippet.title
+                holder.binding.dateText=niceDateStr.toString()
+                holder.binding.runTime=formatDuration(list[position].contentDetails.duration)
+
         }catch (_:Exception){
 
         }
