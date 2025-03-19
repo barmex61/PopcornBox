@@ -1,8 +1,140 @@
-![popcorn6](https://github.com/user-attachments/assets/a80cd840-7c86-4572-9f66-3d71102a83df)
-![popcorn5](https://github.com/user-attachments/assets/a0664a2b-e967-4cb6-9adc-cc9533e39805)
-![pocorn4](https://github.com/user-attachments/assets/c4005bb7-bdae-49c5-9cc1-2b378e082b89)
-![popcorn3](https://github.com/user-attachments/assets/6c4f5313-2180-4481-9b39-35e665fa8eaa)
-![popcorn2](https://github.com/user-attachments/assets/e16f4a54-8f2d-4934-9dfe-94084dc9b272)
-![pocorn8](https://github.com/user-attachments/assets/41294f4c-e95b-4bde-84e4-404d8dedad6a)
-![pocorn7](https://github.com/user-attachments/assets/5dec295f-dc11-4936-8128-543ad8d46d49)
-![popcorn1](https://github.com/user-attachments/assets/7cdbd0b3-eea3-4aeb-89c1-a33e4a0b7552)
+# 🍿 PopcornBox
+
+## 📱 About
+
+PopcornBox is a modern Android application designed for movie and TV show enthusiasts. Built with Material Design principles and a clean architecture approach, it offers a user-friendly interface and comprehensive features for managing your watchlist and discovering new content.
+
+## ✨ Features
+
+### Movie and TV Show Management
+- 🌍 Discover new movies and TV shows
+- 🔔 Customizable notifications for new releases
+- 📅 Daily, weekly, and monthly watchlist
+- 🕰️ Home screen widget for quick access
+- 🌐 Offline support for your watchlist
+
+### Content Discovery
+- 📖 Detailed movie and TV show information
+- 🤲 User reviews and ratings
+- 📚 Personalized recommendations
+- ✨ Trending content
+- ⭐️ Favorites system for easy access
+
+### Tools & Utilities
+- 🎯 Advanced search functionality
+- 📊 Watchlist statistics and tracking
+- 📍 Nearby theaters finder
+- 🌙 Dark mode support
+- ⚙️ Customizable settings
+
+### Technical Features
+- 🎨 Material You dynamic theming
+- 🌓 Dark/Light mode support
+- 📱 Modern Jetpack Compose UI
+- 🔄 Background synchronization
+- 🔔 Precise notifications
+
+## 🛠️ Technology Stack
+
+### Core
+- 100% Kotlin
+- Clean Architecture with MVVM
+- Jetpack Compose for UI
+- Material Design
+- Single Activity Architecture
+
+### Android Jetpack
+- Navigation Compose
+- Room Database
+- ViewModel
+- WorkManager
+- Hilt for DI
+
+### Asynchronous Operations
+- Coroutines
+- Flow & StateFlow
+- LiveData
+
+### Data & Networking
+- Retrofit
+- Gson
+- Kotlinx Serialization
+- Background Services
+
+### UI & Graphics
+- Custom Compose Animations
+- Charts for Statistics
+- Animated Navigation Bar
+- Custom Widgets
+
+### Other Libraries
+- ThreeTenABP for Date/Time
+- Accompanist
+- Custom Audio Player
+
+## 🏗️ Architecture
+
+The app follows Clean Architecture principles with three main layers:
+
+### 🎨 Presentation Layer
+- MVVM Pattern
+- Compose UI Components
+- ViewModels
+- State Management
+- Navigation
+
+### 💼 Domain Layer
+- Use Cases
+- Repository Interfaces
+- Domain Models
+- Business Logic
+
+### 💾 Data Layer
+- Repositories Implementation
+- Local Database
+- Remote Data Source
+- Data Models
+- Background Services
+
+## 🔧 Setup
+
+1. Clone the repository
+```bash
+git clone https://github.com/barmex61/PopcornBox.git
+```
+
+2. Open in Android Studio
+
+3. Add required API keys in local.properties:
+```properties
+API_KEY=your_api_key
+```
+
+4. Build and run the project
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 🐛 Bug Reports
+
+If you find a bug or have a suggestion, please open an issue on GitHub.
+
+## 📝 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 📞 Contact
+
+For questions and feedback:
+
+- GitHub Issues
+- Email: koc.fatih.tr.61@gmail.com
+
+## 🌟 Support
+
+If you find this project helpful, please consider giving it a star ⭐️
